@@ -6,7 +6,7 @@ const EXPORT_SPECS = [
   { icon: <IconMonitor size={18} />, k: '解像度',         v: '1920×1080（フルHD）' },
   { icon: <IconClock size={18} />,   k: 'フレームレート',  v: '30fps（固定）' },
   { icon: <IconSpeaker size={18} />, k: '音声',           v: 'AAC・48kHz・ステレオ' },
-  { icon: <IconArrowR size={18} />,  k: '映像ビットレート', v: '8〜16Mbps 目安' },
+  { icon: <IconArrowR size={18} />,  k: '映像ビットレート', v: '8〜20Mbps 目安' },
 ];
 
 const EXPORT_DONTS = [

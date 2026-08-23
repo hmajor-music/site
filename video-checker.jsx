@@ -279,6 +279,9 @@ function classifyVideo(meta) {
     if (meta.video.fps >= 60) {
       redIssues.push(`フレームレートが ${fmtFps(meta.video.fps)} です（60fps以上）。`);
     }
+    if (meta.video.bitrateMbps > 30) {
+      redIssues.push(`映像ビットレートが ${meta.video.bitrateMbps.toFixed(1)}Mbps です（30Mbps超）。会場の再生機でカクつきや再生停止の原因となるため、20Mbps以下で書き出し直してください。`);
+    }
   }
 
   if (redIssues.length > 0 || !meta.video) {
@@ -286,6 +289,7 @@ function classifyVideo(meta) {
       tier: 'fix',
       issues: redIssues.length ? redIssues : ['動画情報を解析できませんでした。'],
       audioCaution,
+      bitrateCaution: null,
     };
   }
 
@@ -293,21 +297,36 @@ function classifyVideo(meta) {
 
   const resTier = (w === 1920 && h === 1080) ? 'gold' : ((w >= 1280 && h >= 720) ? 'ok' : 'fix');
   const fpsTier = (fps >= 29.97 && fps <= 30.03) ? 'gold' : ((fps >= 24 && fps <= 30.03) ? 'ok' : 'fix');
-  const brTier = (br >= 8 && br <= 16) ? 'gold' : ((br >= 3 && br < 8) ? 'ok' : 'fix');
+
+  // ビットレートは 30Mbps 超をすでに上で弾いているので、ここでは0〜30Mbpsの範囲だけを見る。
+  // 20〜30Mbpsは再生自体は可能だが、会場の再生機でカクつきが増える傾向があるため
+  // 「再生可能」止まりとし、注意文を添える。
+  let brTier;
+  let bitrateCaution = null;
+  if (br >= 8 && br <= 20) {
+    brTier = 'gold';
+  } else if (br >= 3 && br < 8) {
+    brTier = 'ok';
+  } else if (br > 20) {
+    brTier = 'ok';
+    bitrateCaution = `映像ビットレートが ${br.toFixed(1)}Mbps です。20Mbpsを超えると会場の再生機でカクつきが発生する可能性が増えるため、20Mbps以下を推奨します。`;
+  } else {
+    brTier = 'fix';
+  }
 
   if (resTier === 'fix' || fpsTier === 'fix' || brTier === 'fix') {
     const mismatches = [];
     if (resTier === 'fix') mismatches.push(`解像度: ${w}×${h}（推奨 1920×1080 / 可 1280×720〜）`);
     if (fpsTier === 'fix') mismatches.push(`フレームレート: ${fmtFps(fps)}（推奨 30fps付近）`);
-    if (brTier === 'fix') mismatches.push(`映像ビットレート: ${br.toFixed(1)}Mbps（推奨 8〜16Mbps）`);
-    return { tier: 'fix', issues: mismatches, audioCaution };
+    if (brTier === 'fix') mismatches.push(`映像ビットレート: ${br.toFixed(1)}Mbps（推奨 8〜20Mbps）`);
+    return { tier: 'fix', issues: mismatches, audioCaution, bitrateCaution };
   }
 
   if (resTier === 'gold' && fpsTier === 'gold' && brTier === 'gold' && audioTier === 'gold') {
-    return { tier: 'recommended', issues: [], audioCaution };
+    return { tier: 'recommended', issues: [], audioCaution, bitrateCaution };
   }
 
-  return { tier: 'ok', issues: [], audioCaution };
+  return { tier: 'ok', issues: [], audioCaution, bitrateCaution };
 }
 
 // ---- UI --------------------------------------------------------
@@ -372,6 +391,13 @@ function VideoCheckResult({ fileName, meta, verdict }) {
             <span className="font-gothic text-muted block text-[10px]" style={{ letterSpacing: '.1em' }}>音声</span>
             <span className="font-gothic text-ink/80 text-[12px]">{audioLabel(meta.audio)}</span>
           </div>
+        </div>
+      )}
+
+      {verdict.bitrateCaution && (
+        <div className="mt-4 flex items-start gap-2.5 border border-gold/50 bg-cream/40 px-3.5 sm:px-4 py-3 sm:py-3.5">
+          <IconAlert size={15} className="shrink-0 mt-0.5 text-goldDeep" />
+          <p className="font-gothic text-goldDeep leading-relaxed text-[11.5px] sm:text-[12px]">{verdict.bitrateCaution}</p>
         </div>
       )}
 
