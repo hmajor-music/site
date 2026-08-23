@@ -109,7 +109,7 @@ function CopyrightSection() {
       </div>
 
       <p className="text-center font-gothic text-muted mt-6 sm:mt-9 mx-auto leading-[1.8] sm:leading-[1.9] text-[10.5px] sm:text-[11px] px-2" style={{ maxWidth: 620 }}>
-        ※ ご希望の楽曲や映像がご使用いただけるか判断に迷われる場合は、ご遠慮なく担当ミュージックプランナーへお尋ねください。代替のご提案も含めて一緒に検討いたします。
+        ※ ご希望の楽曲や映像がご使用いただけるか判断に迷われる場合は、ご遠慮なく担当ミュージックプランナーへお尋ねください。
       </p>
       </div>
     </section>
