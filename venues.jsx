@@ -25,7 +25,7 @@ const VENUES = {
     businessHours: '営業時間 12:00–18:00 火曜日定休',
   },
   TKN: {
-    name: 'THE KAWABUN NAGOYA（料亭河文）',
+    name: 'THE KAWABUN NAGOYA / 料亭河文',
     city: '名古屋',
     formUrl: 'https://docs.google.com/forms/d/e/1FAIpQLScJ_bvnLwLEpBEHJXf98gvLTq33tFpJpqqwWLI3A40th6aiHQ/viewform?usp=dialog',
     contactEmail: 'fem.nagoya@fem-produce.co.jp',
