@@ -108,6 +108,46 @@ function AppGuide({ g, open, onToggle }) {
   );
 }
 
+// ---- 作成から提出までの流れ -------------------------------------
+const EXPORT_STEPS = [
+  { icon: <IconFilm size={20} />, label: '映像を作成', sub: 'マニュアルのルールで編集' },
+  { icon: <IconDownload size={20} />, label: '指定の設定で書き出し', sub: 'MP4・H.264・1080p・30fps' },
+  { icon: <IconMonitor size={20} />, label: '事前チェック', sub: '下のツールでその場で確認' },
+  { icon: <IconUpload size={20} />, label: 'データを提出', sub: '専用フォームから提出' },
+  { icon: <IconCheck size={20} />, label: '会場で再生確認', sub: '当日まで安心してお任せ' },
+];
+
+function ExportFlow() {
+  return (
+    <div className="mb-8 sm:mb-12 border border-line bg-white flex flex-col sm:flex-row">
+      {EXPORT_STEPS.map((s, i) => (
+        <React.Fragment key={s.label}>
+          <div className="flex-1 flex sm:flex-col items-center text-left sm:text-center gap-4 sm:gap-2.5 px-5 sm:px-3 py-5 sm:py-7">
+            <div className="shrink-0 w-11 h-11 sm:w-12 sm:h-12 rounded-full border border-gold/50 bg-cream/40 text-goldDeep flex items-center justify-center">
+              {s.icon}
+            </div>
+            <div>
+              <div className="font-gothic text-goldDeep text-[9.5px] sm:text-[10px]" style={{ letterSpacing: '.16em' }}>STEP {i + 1}</div>
+              <div className="font-mincho text-ink text-[13.5px] sm:text-[14px] mt-0.5" style={{ letterSpacing: '.02em' }}>{s.label}</div>
+              <div className="font-gothic text-muted text-[10.5px] sm:text-[11px] mt-1">{s.sub}</div>
+            </div>
+          </div>
+          {i < EXPORT_STEPS.length - 1 && (
+            <div className="hidden sm:flex items-center justify-center text-line/80 px-0.5">
+              <IconChevR size={16} />
+            </div>
+          )}
+          {i < EXPORT_STEPS.length - 1 && (
+            <div className="sm:hidden flex justify-center text-line/80 border-t border-line/60 py-1.5">
+              <IconChevD size={16} />
+            </div>
+          )}
+        </React.Fragment>
+      ))}
+    </div>
+  );
+}
+
 function ExportGuideSection() {
   const [open, setOpen] = React.useState(0);
   return (
@@ -115,6 +155,8 @@ function ExportGuideSection() {
       <div className="max-w-[1280px] mx-auto">
       <SectionHead en="Export Guide" title="再生トラブルを防ぐ、書き出しガイド。"
         sub="会場の再生機（TASCAM BD-MP1MKII）で確実に流すための設定です。この通りに書き出せば、当日の“映らない”をほぼ防げます。" center />
+
+      <ExportFlow />
 
       {/* HEVC 警告 */}
       <div className="flex items-stretch mb-8 sm:mb-10" style={{ background: '#2C2823' }}>
