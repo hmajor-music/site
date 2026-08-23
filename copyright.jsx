@@ -48,6 +48,7 @@ const PERMISSION = [
 function CopyrightSection() {
   return (
     <section id="copyright" className="scroll-mt-20 px-5 sm:px-14 py-12 sm:py-24 bg-cream/50">
+      <div className="max-w-[1280px] mx-auto">
       <SectionHead en="About BGM" title="BGM・著作権について。"
         sub="お打ち合わせで決まったBGMは、許諾申請も音源準備も当会場が行います。" center />
 
@@ -110,6 +111,7 @@ function CopyrightSection() {
       <p className="text-center font-gothic text-muted mt-6 sm:mt-9 mx-auto leading-[1.8] sm:leading-[1.9] text-[10.5px] sm:text-[11px] px-2" style={{ maxWidth: 620 }}>
         ※ ご希望の楽曲や映像がご使用いただけるか判断に迷われる場合は、ご遠慮なく担当ミュージックプランナーへお尋ねください。代替のご提案も含めて一緒に検討いたします。
       </p>
+      </div>
     </section>
   );
 }

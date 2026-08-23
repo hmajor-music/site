@@ -23,6 +23,7 @@ function SubHead({ children }) {
 function ManualSection() {
   return (
     <section id="manual" className="scroll-mt-20 px-5 sm:px-14 py-12 sm:py-24 bg-cream/50">
+      <div className="max-w-[1280px] mx-auto">
       <SectionHead en="Manual" title="映像づくりの、基本ルール。"
       sub="ここを押さえれば、当日の再生トラブルはほぼ防げます。" center />
 
@@ -126,6 +127,7 @@ function ManualSection() {
             <span className="text-goldDeep font-medium">一部が途切れる</span>可能性があるため、表示領域より少し内側に配置してください。
           </p>
         </div>
+      </div>
       </div>
     </section>);
 }

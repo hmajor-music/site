@@ -21,7 +21,7 @@ function Header({ go, active }) {
 
   return (
     <header className="sticky top-0 z-40 bg-ivory/95 backdrop-blur-md border-b border-line">
-      <div className="h-[64px] sm:h-[76px] px-4 sm:px-8 lg:px-14 flex items-center justify-between">
+      <div className="h-[64px] sm:h-[76px] px-4 sm:px-8 lg:px-14 max-w-[1280px] mx-auto flex items-center justify-between">
         <button onClick={() => handleNavClick('top')} className="flex items-center gap-2.5 sm:gap-4 active:opacity-70 transition-opacity shrink-0">
           <Logo h={28} className="sm:hidden" />
           <span className="hidden sm:inline-block"><Logo h={34} /></span>
@@ -88,7 +88,7 @@ function Hero({ go }) {
       {/* Responsive overlay: dark enough on mobile so text pops */}
       <div className="absolute inset-0 bg-gradient-to-b from-ivory/95 via-ivory/90 to-ivory/95 sm:bg-gradient-to-r sm:from-ivory sm:via-ivory/95 sm:to-transparent"></div>
 
-      <div className="relative px-5 sm:px-14 pt-14 sm:pt-28 pb-16 sm:pb-32 flex flex-col justify-center min-h-[440px] sm:min-h-[560px]">
+      <div className="relative px-5 sm:px-14 pt-14 sm:pt-28 pb-16 sm:pb-32 max-w-[1280px] mx-auto flex flex-col justify-center min-h-[440px] sm:min-h-[560px]">
         <div style={{ maxWidth: 660 }}>
           <Eyebrow en="Music &amp; Visual Guide">{VENUE_NAME}</Eyebrow>
           <h1 className="font-mincho text-ink mt-6 sm:mt-9 text-3xl sm:text-4xl lg:text-[46px] leading-[1.35] sm:leading-[1.5]" style={{ letterSpacing: '.06em', fontWeight: 400 }}>
@@ -108,31 +108,33 @@ function QuickActions({ go }) {
   const icons = { video: IconFilm, bgm: IconMusic, submit: IconUpload };
   return (
     <section className="px-5 sm:px-14 py-12 sm:py-24">
-      <SectionHead en="Quick Access" title="まずは、こちらから。"
-        sub="知りたいこと・やりたいことから選んでください。" center />
-      <div className="grid grid-cols-1 md:grid-cols-3 border border-line md:border-r-0 md:border-b-0">
-        {QUICK_ACTIONS.map((a) => {
-          const I = icons[a.id];
-          const targetId = a.target || a.scrollTo || a.tab || a.id;
-          return (
-            <a key={a.id} href={`#${targetId}`}
-              onClick={(e) => {
-                e.preventDefault();
-                go(targetId);
-              }}
-              className="group block text-left bg-white border-b md:border-r border-line px-6 sm:px-9 py-7 sm:py-11 transition-colors duration-300 hover:bg-cream/50 cursor-pointer no-underline last:border-b-0 md:last:border-b">
-              <div className="text-goldDeep/70 transition-colors duration-300 group-hover:text-goldDeep">
-                <I size={26} />
-              </div>
-              <div className="font-mincho text-ink mt-5 sm:mt-8 text-base sm:text-[17px]" style={{ letterSpacing: '.04em' }}>{a.label}</div>
-              <div className="font-gothic text-muted mt-2 text-[11.5px] sm:text-[12px]">{a.sub}</div>
-              <div className="flex items-center gap-2 mt-6 sm:mt-9 text-goldDeep font-gothic transition-transform duration-300 group-hover:translate-x-1.5"
-                style={{ fontSize: 10.5, letterSpacing: '.18em' }}>
-                VIEW <IconChevR size={13} />
-              </div>
-            </a>
-          );
-        })}
+      <div className="max-w-[1280px] mx-auto">
+        <SectionHead en="Quick Access" title="まずは、こちらから。"
+          sub="知りたいこと・やりたいことから選んでください。" center />
+        <div className="grid grid-cols-1 md:grid-cols-3 border border-line md:border-r-0 md:border-b-0">
+          {QUICK_ACTIONS.map((a) => {
+            const I = icons[a.id];
+            const targetId = a.target || a.scrollTo || a.tab || a.id;
+            return (
+              <a key={a.id} href={`#${targetId}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  go(targetId);
+                }}
+                className="group block text-left bg-white border-b md:border-r border-line px-6 sm:px-9 py-7 sm:py-11 transition-colors duration-300 hover:bg-cream/50 cursor-pointer no-underline last:border-b-0 md:last:border-b">
+                <div className="text-goldDeep/70 transition-colors duration-300 group-hover:text-goldDeep">
+                  <I size={26} />
+                </div>
+                <div className="font-mincho text-ink mt-5 sm:mt-8 text-base sm:text-[17px]" style={{ letterSpacing: '.04em' }}>{a.label}</div>
+                <div className="font-gothic text-muted mt-2 text-[11.5px] sm:text-[12px]">{a.sub}</div>
+                <div className="flex items-center gap-2 mt-6 sm:mt-9 text-goldDeep font-gothic transition-transform duration-300 group-hover:translate-x-1.5"
+                  style={{ fontSize: 10.5, letterSpacing: '.18em' }}>
+                  VIEW <IconChevR size={13} />
+                </div>
+              </a>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

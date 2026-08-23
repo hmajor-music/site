@@ -28,7 +28,7 @@ function App() {
   }, []);
 
   return (
-    <div className="mx-auto bg-ivory" style={{ maxWidth: 1280 }}>
+    <div className="bg-ivory w-full">
       <Header go={go} active={active} />
       <Hero go={go} />
       <QuickActions go={go} />

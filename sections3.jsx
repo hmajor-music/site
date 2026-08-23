@@ -4,6 +4,7 @@
 function SubmitSection() {
   return (
     <section id="submit" className="scroll-mt-20 px-5 sm:px-14 py-12 sm:py-24 bg-cream/50">
+      <div className="max-w-[1280px] mx-auto">
       <SectionHead en="Data Submission" title="データ提出窓口。"
       sub="下記の専用フォームから、映像データをご提出ください。THE GARDEN ORIENTAL OSAKA でご披露宴のお客様専用の窓口です。" center />
 
@@ -52,6 +53,7 @@ function SubmitSection() {
       <p className="text-center font-gothic text-muted mt-6 sm:mt-9 text-[10.5px] sm:text-[11px]">
         フォームが開かない場合や、ご不明な点はお問い合わせください。
       </p>
+      </div>
     </section>);
 }
 
@@ -76,6 +78,7 @@ function SupportSection() {
   const [open, setOpen] = React.useState(0);
   return (
     <section id="support" className="scroll-mt-20 px-5 sm:px-14 py-12 sm:py-24">
+      <div className="max-w-[1280px] mx-auto">
       <SectionHead en="Help &amp; Support" title="お困りごとを、その場で解決。"
       sub="よくあるご質問をまとめました。解決しないときはお気軽にお問い合わせください。" center />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-10">
@@ -96,12 +99,14 @@ function SupportSection() {
           </div>
         </div>
       </div>
+      </div>
     </section>);
 }
 
 function Footer({ go }) {
   return (
     <footer style={{ background: '#2C2823' }} className="px-5 sm:px-14 pt-12 sm:pt-16 pb-8 sm:pb-11">
+      <div className="max-w-[1280px] mx-auto">
       <div className="flex flex-col md:flex-row gap-8 items-start justify-between border-b border-white/10 pb-8 sm:pb-12">
         <div>
           <Logo light h={34} />
@@ -119,6 +124,7 @@ function Footer({ go }) {
       <div className="flex flex-col sm:flex-row gap-2 sm:gap-0 items-start sm:items-center justify-between pt-5 sm:pt-7">
         <span className="font-gothic text-ivory/35 text-[10px] sm:text-[10.5px]" style={{ letterSpacing: '.1em' }}>© 2026 Hmajor — Wedding Sound &amp; Visual</span>
         <span className="font-enserif text-gold/60 text-[12px] sm:text-[13px]" style={{ letterSpacing: '.06em' }}>Make your day sound beautiful.</span>
+      </div>
       </div>
     </footer>);
 }

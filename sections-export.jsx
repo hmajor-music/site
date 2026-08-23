@@ -112,6 +112,7 @@ function ExportGuideSection() {
   const [open, setOpen] = React.useState(0);
   return (
     <section id="export" className="scroll-mt-20 px-5 sm:px-14 py-12 sm:py-24">
+      <div className="max-w-[1280px] mx-auto">
       <SectionHead en="Export Guide" title="再生トラブルを防ぐ、書き出しガイド。"
         sub="会場の再生機（TASCAM BD-MP1MKII）で確実に流すための設定です。この通りに書き出せば、当日の“映らない”をほぼ防げます。" center />
 
@@ -189,6 +190,7 @@ function ExportGuideSection() {
         <p className="font-gothic text-ink/75 leading-relaxed text-[12px] sm:text-[12.5px]">
           上記設定なら、5〜6分の映像でもファイルは数百MB〜2GB程度に収まり、提出フォームからスムーズに送信できます。
         </p>
+      </div>
       </div>
     </section>
   );
