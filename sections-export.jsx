@@ -137,6 +137,11 @@ function ExportGuideSection() {
         </div>
       </div>
 
+      {/* 動画ファイル事前チェック */}
+      <div className="mb-8 sm:mb-12">
+        <VideoChecker />
+      </div>
+
       {/* 確実な設定 / 避ける設定 */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-8 sm:mb-12">
         <div className="col-span-1 lg:col-span-3 bg-white border border-line p-6 sm:p-9">
