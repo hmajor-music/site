@@ -1,12 +1,12 @@
 // ── Reusable UI primitives ─────────────────────────────────────
 
 // Brand logo — real Hmajor script wordmark (white bg keyed to transparent)
-function Logo({ light = false, h = 40 }) {
+function Logo({ light = false, h = 40, className = '' }) {
   return (
     <img
       src={light ? 'logo/hmajor-mark-light.png' : 'logo/hmajor-mark.png'}
       alt="Hmajor"
-      className="select-none block"
+      className={`select-none block ${className}`}
       style={{ height: h, width: 'auto' }}
       draggable="false"
     />
