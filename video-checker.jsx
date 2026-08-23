@@ -223,11 +223,54 @@ function fmtFps(fps) {
   return `${fps.toFixed(2)}fps`;
 }
 
+function audioChannelLabel(channels) {
+  return { 1: 'モノラル', 2: 'ステレオ', 6: '5.1chサラウンド' }[channels] || `${channels}ch`;
+}
+
+function audioLabel(audio) {
+  if (!audio) return 'なし';
+  return `${audio.sampleRate / 1000}kHz / ${audio.channels}ch（${audioChannelLabel(audio.channels)}）`;
+}
+
+// チャンネル数だけで判定できる音質の善し悪しを見る。
+// コーデック不一致・トラック欠落は analyzeVideoFile 側の audioIssue で別途弾く。
+function evaluateAudioChannels(audio) {
+  if (audio.channels === 6) {
+    return {
+      red: '音声が 5.1ch サラウンドです。会場の音響卓（PA）で声や特定パートの音が消える事故の原因になるため、2ch（ステレオ）で書き出し直してください。',
+    };
+  }
+  if (audio.channels !== 1 && audio.channels !== 2) {
+    return { red: `音声が ${audio.channels}ch です。2ch（ステレオ）で書き出し直してください。` };
+  }
+  if (audio.channels === 1) {
+    return {
+      gold: false,
+      caution: 'モノラル（1ch）音声です。会場スピーカーの片側からしか音が流れない可能性があるため、ステレオ（2ch）を推奨します。',
+    };
+  }
+  // 2ch（ステレオ）: 48kHz・44.1kHz のどちらも推奨レベル
+  return { gold: audio.sampleRate === 48000 || audio.sampleRate === 44100, caution: null };
+}
+
 function classifyVideo(meta) {
   const redIssues = [];
   if (meta.formatIssue) redIssues.push(meta.formatIssue);
   if (meta.videoCodecIssue) redIssues.push(meta.videoCodecIssue);
-  if (meta.audioIssue) redIssues.push(meta.audioIssue);
+
+  let audioTier = 'fix';
+  let audioCaution = null;
+  if (meta.audioIssue) {
+    redIssues.push(meta.audioIssue);
+  } else if (meta.audio) {
+    const audioEval = evaluateAudioChannels(meta.audio);
+    if (audioEval.red) {
+      redIssues.push(audioEval.red);
+    } else {
+      audioTier = audioEval.gold ? 'gold' : 'ok';
+      audioCaution = audioEval.caution || null;
+    }
+  }
 
   if (meta.video) {
     if (meta.video.width > 1920 || meta.video.height > 1080) {
@@ -239,35 +282,32 @@ function classifyVideo(meta) {
   }
 
   if (redIssues.length > 0 || !meta.video) {
-    return { tier: 'fix', issues: redIssues.length ? redIssues : ['動画情報を解析できませんでした。'] };
+    return {
+      tier: 'fix',
+      issues: redIssues.length ? redIssues : ['動画情報を解析できませんでした。'],
+      audioCaution,
+    };
   }
 
   const { width: w, height: h, fps, bitrateMbps: br } = meta.video;
-  const audio = meta.audio;
 
-  const isGoldRes = w === 1920 && h === 1080;
-  const isGoldFps = fps >= 29.97 && fps <= 30.03;
-  const isGoldBitrate = br >= 8 && br <= 16;
-  const isGoldAudio = !!audio && audio.sampleRate === 48000 && audio.channels === 2;
+  const resTier = (w === 1920 && h === 1080) ? 'gold' : ((w >= 1280 && h >= 720) ? 'ok' : 'fix');
+  const fpsTier = (fps >= 29.97 && fps <= 30.03) ? 'gold' : ((fps >= 24 && fps <= 30.03) ? 'ok' : 'fix');
+  const brTier = (br >= 8 && br <= 16) ? 'gold' : ((br >= 3 && br < 8) ? 'ok' : 'fix');
 
-  if (isGoldRes && isGoldFps && isGoldBitrate && isGoldAudio) {
-    return { tier: 'recommended', issues: [] };
+  if (resTier === 'fix' || fpsTier === 'fix' || brTier === 'fix') {
+    const mismatches = [];
+    if (resTier === 'fix') mismatches.push(`解像度: ${w}×${h}（推奨 1920×1080 / 可 1280×720〜）`);
+    if (fpsTier === 'fix') mismatches.push(`フレームレート: ${fmtFps(fps)}（推奨 30fps付近）`);
+    if (brTier === 'fix') mismatches.push(`映像ビットレート: ${br.toFixed(1)}Mbps（推奨 8〜16Mbps）`);
+    return { tier: 'fix', issues: mismatches, audioCaution };
   }
 
-  const isOkRes = w >= 1280 && h >= 720 && !isGoldRes;
-  const isOkFps = fps >= 24 && fps <= 30.03;
-  const isOkBitrate = br >= 3 && br < 8;
-
-  if (isOkRes && isOkFps && isOkBitrate) {
-    return { tier: 'ok', issues: [] };
+  if (resTier === 'gold' && fpsTier === 'gold' && brTier === 'gold' && audioTier === 'gold') {
+    return { tier: 'recommended', issues: [], audioCaution };
   }
 
-  const mismatches = [];
-  if (!isGoldRes && !isOkRes) mismatches.push(`解像度: ${w}×${h}（推奨 1920×1080 / 可 1280×720〜）`);
-  if (!isGoldFps && !isOkFps) mismatches.push(`フレームレート: ${fmtFps(fps)}（推奨 30fps付近）`);
-  if (!isGoldBitrate && !isOkBitrate) mismatches.push(`映像ビットレート: ${br.toFixed(1)}Mbps（推奨 8〜16Mbps）`);
-  if (!isGoldAudio) mismatches.push(`音声: ${audio.sampleRate / 1000}kHz / ${audio.channels}ch（推奨 48kHz ステレオ）`);
-  return { tier: 'fix', issues: mismatches.length ? mismatches : ['会場の推奨設定から外れています。'] };
+  return { tier: 'ok', issues: [], audioCaution };
 }
 
 // ---- UI --------------------------------------------------------
@@ -330,10 +370,15 @@ function VideoCheckResult({ fileName, meta, verdict }) {
           </div>
           <div>
             <span className="font-gothic text-muted block text-[10px]" style={{ letterSpacing: '.1em' }}>音声</span>
-            <span className="font-gothic text-ink/80 text-[12px]">
-              {meta.audio ? `${meta.audio.sampleRate / 1000}kHz / ${meta.audio.channels}ch` : 'なし'}
-            </span>
+            <span className="font-gothic text-ink/80 text-[12px]">{audioLabel(meta.audio)}</span>
           </div>
+        </div>
+      )}
+
+      {verdict.audioCaution && (
+        <div className="mt-4 flex items-start gap-2.5 border border-gold/50 bg-cream/40 px-3.5 sm:px-4 py-3 sm:py-3.5">
+          <IconAlert size={15} className="shrink-0 mt-0.5 text-goldDeep" />
+          <p className="font-gothic text-goldDeep leading-relaxed text-[11.5px] sm:text-[12px]">{verdict.audioCaution}</p>
         </div>
       )}
     </div>
