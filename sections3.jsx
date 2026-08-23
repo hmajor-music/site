@@ -19,14 +19,23 @@ function SubmitSection() {
             </span>
             <div className="font-enserif text-ink mt-3 sm:mt-4 leading-tight text-2xl sm:text-[27px]" style={{ letterSpacing: '.02em' }}>{VENUE.name}</div>
             <p className="font-gothic text-muted mt-3.5 sm:mt-5 leading-[1.85] sm:leading-[1.95] text-[12px] sm:text-[12.5px]">
-              下のボタンから専用フォームを開き、必要事項をご入力のうえ映像データをアップロードしてください。
+              {VENUE.formUrl
+                ? '下のボタンから専用フォームを開き、必要事項をご入力のうえ映像データをアップロードしてください。'
+                : '専用フォームは現在準備中です。データのご提出方法は担当プランナーよりご案内いたします。'}
             </p>
             <div className="mt-6 md:mt-auto pt-4 md:pt-9">
-              <a href={VENUE.formUrl} target="_blank" rel="noopener noreferrer"
-                className="group inline-flex items-center justify-center gap-3 bg-ink text-ivory border border-ink px-6 sm:px-8 py-3.5 sm:py-4 font-gothic transition-colors duration-300 hover:bg-transparent hover:text-ink w-full sm:w-auto text-[12px] sm:text-[12.5px]"
-                style={{ letterSpacing: '.12em' }}>
-                提出フォームを開く <IconExternal size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
-              </a>
+              {VENUE.formUrl ? (
+                <a href={VENUE.formUrl} target="_blank" rel="noopener noreferrer"
+                  className="group inline-flex items-center justify-center gap-3 bg-ink text-ivory border border-ink px-6 sm:px-8 py-3.5 sm:py-4 font-gothic transition-colors duration-300 hover:bg-transparent hover:text-ink w-full sm:w-auto text-[12px] sm:text-[12.5px]"
+                  style={{ letterSpacing: '.12em' }}>
+                  提出フォームを開く <IconExternal size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
+                </a>
+              ) : (
+                <span className="inline-flex items-center justify-center gap-3 bg-line/60 text-muted border border-line px-6 sm:px-8 py-3.5 sm:py-4 font-gothic w-full sm:w-auto text-[12px] sm:text-[12.5px]"
+                  style={{ letterSpacing: '.12em' }}>
+                  フォーム準備中
+                </span>
+              )}
             </div>
           </div>
         </div>
