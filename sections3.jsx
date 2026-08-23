@@ -5,7 +5,7 @@ function SubmitSection() {
   return (
     <section id="submit" className="scroll-mt-20 px-5 sm:px-14 py-12 sm:py-24 bg-cream/50">
       <div className="max-w-[1280px] mx-auto">
-      <SectionHead en="Data Submission" title="データ提出窓口。"
+      <SectionHead en="Data Submission" title="データ提出窓口"
       sub={`下記の専用フォームから、映像データをご提出ください。${VENUE.name} でご披露宴のお客様専用の窓口です。`} center />
 
       <div className="max-w-4xl mx-auto bg-white border border-line">
