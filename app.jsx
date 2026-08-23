@@ -13,6 +13,10 @@ function App() {
   }, []);
 
   useEffect(() => {
+    document.title = `${VENUE.name} ｜ Hmajor お客様案内ページ`;
+  }, []);
+
+  useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY + 130;
       let cur = 'top';

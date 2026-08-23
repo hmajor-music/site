@@ -1,7 +1,5 @@
 // ── Upper sections: Header / Hero / 必読 / QuickActions / Alert ──
 
-const VENUE_NAME = 'THE GARDEN ORIENTAL OSAKA';
-
 const NAV = [
   { id: 'top',     label: 'ホーム' },
   { id: 'manual',  label: 'マニュアル' },
@@ -26,7 +24,7 @@ function Header({ go, active }) {
           <Logo h={28} className="sm:hidden" />
           <span className="hidden sm:inline-block"><Logo h={34} /></span>
           <span className="h-4 sm:h-6 w-px bg-line"></span>
-          <span className="font-gothic text-ink/60 text-[9.5px] sm:text-[10.5px] tracking-[.15em] sm:tracking-[.2em] truncate max-w-[170px] sm:max-w-none">{VENUE_NAME}</span>
+          <span className="font-gothic text-ink/60 text-[9.5px] sm:text-[10.5px] tracking-[.15em] sm:tracking-[.2em] truncate max-w-[170px] sm:max-w-none">{VENUE.name}</span>
         </button>
 
         {/* Desktop Nav */}
@@ -84,13 +82,15 @@ function Header({ go, active }) {
 function Hero({ go }) {
   return (
     <section id="top" className="relative overflow-hidden">
-      <img src="logo/hero-chapel.jpg" alt="" className="absolute inset-0 w-full h-full object-cover" style={{ objectPosition: '68% 50%' }} />
+      {VENUE.heroImage
+        ? <img src={VENUE.heroImage} alt="" className="absolute inset-0 w-full h-full object-cover" style={{ objectPosition: '68% 50%' }} />
+        : <Placeholder label="HERO PHOTO" className="absolute inset-0 w-full h-full" />}
       {/* Responsive overlay: dark enough on mobile so text pops */}
       <div className="absolute inset-0 bg-gradient-to-b from-ivory/95 via-ivory/90 to-ivory/95 sm:bg-gradient-to-r sm:from-ivory sm:via-ivory/95 sm:to-transparent"></div>
 
       <div className="relative px-5 sm:px-14 pt-14 sm:pt-28 pb-16 sm:pb-32 max-w-[1280px] mx-auto flex flex-col justify-center min-h-[440px] sm:min-h-[560px]">
         <div style={{ maxWidth: 660 }}>
-          <Eyebrow en="Music &amp; Visual Guide">{VENUE_NAME}</Eyebrow>
+          <Eyebrow en="Music &amp; Visual Guide">{VENUE.name}</Eyebrow>
           <h1 className="font-mincho text-ink mt-6 sm:mt-9 text-3xl sm:text-4xl lg:text-[46px] leading-[1.35] sm:leading-[1.5]" style={{ letterSpacing: '.06em', fontWeight: 400 }}>
             お二人の結婚式を、<br />最高の<span className="text-goldDeep">音</span>と<span className="text-goldDeep">映像</span>で。
           </h1>
@@ -157,4 +157,4 @@ function AlertBand() {
   );
 }
 
-Object.assign(window, { NAV, VENUE_NAME, Header, Hero, QuickActions, AlertBand });
+Object.assign(window, { NAV, Header, Hero, QuickActions, AlertBand });

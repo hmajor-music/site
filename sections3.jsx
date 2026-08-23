@@ -6,11 +6,13 @@ function SubmitSection() {
     <section id="submit" className="scroll-mt-20 px-5 sm:px-14 py-12 sm:py-24 bg-cream/50">
       <div className="max-w-[1280px] mx-auto">
       <SectionHead en="Data Submission" title="データ提出窓口。"
-      sub="下記の専用フォームから、映像データをご提出ください。THE GARDEN ORIENTAL OSAKA でご披露宴のお客様専用の窓口です。" center />
+      sub={`下記の専用フォームから、映像データをご提出ください。${VENUE.name} でご披露宴のお客様専用の窓口です。`} center />
 
       <div className="max-w-4xl mx-auto bg-white border border-line">
         <div className="grid grid-cols-1 md:grid-cols-5">
-          <img src="logo/venue-tgoo.png" alt={VENUE.name} className="block w-full h-52 sm:h-72 md:h-full object-cover col-span-1 md:col-span-2" />
+          {VENUE.venueImage
+            ? <img src={VENUE.venueImage} alt={VENUE.name} className="block w-full h-52 sm:h-72 md:h-full object-cover col-span-1 md:col-span-2" />
+            : <Placeholder label="VENUE PHOTO" className="w-full h-52 sm:h-72 md:h-full col-span-1 md:col-span-2" />}
           <div className="col-span-1 md:col-span-3 px-6 sm:px-11 py-7 sm:py-12 flex flex-col">
             <span className="inline-flex items-center gap-2 font-gothic text-muted text-[10.5px] sm:text-[11px]" style={{ letterSpacing: '.14em' }}>
               <IconPin size={13} className="text-goldDeep" />{VENUE.city}
@@ -20,7 +22,7 @@ function SubmitSection() {
               下のボタンから専用フォームを開き、必要事項をご入力のうえ映像データをアップロードしてください。
             </p>
             <div className="mt-6 md:mt-auto pt-4 md:pt-9">
-              <a href={VENUE.url} target="_blank" rel="noopener noreferrer"
+              <a href={VENUE.formUrl} target="_blank" rel="noopener noreferrer"
                 className="group inline-flex items-center justify-center gap-3 bg-ink text-ivory border border-ink px-6 sm:px-8 py-3.5 sm:py-4 font-gothic transition-colors duration-300 hover:bg-transparent hover:text-ink w-full sm:w-auto text-[12px] sm:text-[12.5px]"
                 style={{ letterSpacing: '.12em' }}>
                 提出フォームを開く <IconExternal size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
@@ -94,8 +96,8 @@ function SupportSection() {
           <div className="px-6 sm:px-8 py-7 sm:py-9 text-center" style={{ background: '#F4EEE3' }}>
             <div className="font-mincho text-ink text-[14.5px] sm:text-[15.5px]" style={{ letterSpacing: '.04em' }}>解決しないときは</div>
             <p className="font-gothic text-muted mt-2 sm:mt-3 leading-[1.8] sm:leading-[1.9] text-[11.5px] sm:text-[12px]">下記の窓口までお気軽にお問い合わせください。</p>
-            <div className="mt-4 sm:mt-6 font-mincho text-goldDeep text-[14.5px] sm:text-[16px] break-all" style={{ letterSpacing: '.02em' }}>osaka@fem-produce.co.jp</div>
-            <div className="font-gothic text-muted mt-2 sm:mt-2.5 text-[10.5px] sm:text-[11px]">営業時間 12:00–18:00 火曜日定休</div>
+            <div className="mt-4 sm:mt-6 font-mincho text-goldDeep text-[14.5px] sm:text-[16px] break-all" style={{ letterSpacing: '.02em' }}>{VENUE.contactEmail}</div>
+            <div className="font-gothic text-muted mt-2 sm:mt-2.5 text-[10.5px] sm:text-[11px]">{VENUE.businessHours}</div>
           </div>
         </div>
       </div>

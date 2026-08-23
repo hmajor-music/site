@@ -31,18 +31,10 @@ const FAQS = [
   },
 ];
 
-// ── Venue (this page is exclusive to THE GARDEN ORIENTAL OSAKA) ──
-const VENUE = {
-  name: 'THE GARDEN ORIENTAL OSAKA',
-  city: '大阪',
-  url: 'https://docs.google.com/forms/d/e/1FAIpQLSenXJPyBJgJN4O1k4TCzEA1NNl7F7BfB6RxjQasbx_J1w31Kg/viewform?usp=header',
-  spec: { screen: '16:9 / 大型スクリーン', res: 'フルHD（1920×1080）', sound: '会場設備音響', conn: 'HDMI' },
-};
-
 const QUICK_ACTIONS = [
   { id: 'video',  target: 'manual',    label: '映像の作り方・ルール', sub: 'サイズ / 形式の基本' },
   { id: 'bgm',    target: 'copyright', label: 'BGM・著作権について', sub: '楽曲利用の手続き' },
   { id: 'submit', target: 'submit',    label: 'データ提出窓口', sub: '専用フォームへ' },
 ];
 
-Object.assign(window, { FAQS, QUICK_ACTIONS, VENUE });
+Object.assign(window, { FAQS, QUICK_ACTIONS });
