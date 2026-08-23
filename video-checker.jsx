@@ -124,7 +124,11 @@ function sniffNonIsoContainer(bytes) {
 }
 
 function codecLabel(fourcc) {
-  const map = { hvc1: 'H.265 / HEVC', hev1: 'H.265 / HEVC', mp4v: 'MPEG-4 Visual', vp09: 'VP9', av01: 'AV1' };
+  const map = {
+    avc1: 'H.264 / AVC', avc3: 'H.264 / AVC',
+    hvc1: 'H.265 / HEVC', hev1: 'H.265 / HEVC',
+    mp4v: 'MPEG-4 Visual', vp09: 'VP9', av01: 'AV1',
+  };
   return map[fourcc] || fourcc;
 }
 
@@ -374,7 +378,11 @@ function VideoCheckResult({ fileName, meta, verdict }) {
       )}
 
       {meta && meta.video && (
-        <div className="mt-5 pt-4 border-t border-line/60 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+        <div className="mt-5 pt-4 border-t border-line/60 grid grid-cols-2 sm:grid-cols-5 gap-3 sm:gap-4">
+          <div>
+            <span className="font-gothic text-muted block text-[10px]" style={{ letterSpacing: '.1em' }}>映像コーデック</span>
+            <span className="font-gothic text-ink/80 text-[12px]">{codecLabel(meta.video.codec)}</span>
+          </div>
           <div>
             <span className="font-gothic text-muted block text-[10px]" style={{ letterSpacing: '.1em' }}>解像度</span>
             <span className="font-gothic text-ink/80 text-[12px]">{meta.video.width}×{meta.video.height}</span>
