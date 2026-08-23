@@ -1,4 +1,4 @@
-// ── App shell ──────────────────────────────────────────────────
+// ── App shell (embed build: no browser frame, natural page scroll) ──
 const { useState, useEffect, useCallback } = React;
 
 const SPY_IDS = ['top', 'manual', 'export', 'copyright', 'submit', 'support'];
@@ -10,14 +10,11 @@ function App() {
     const target = document.getElementById(id);
     if (!target) return;
     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    if (id === 'contact') return;
-    setActive(SPY_IDS.includes(id) ? id : active);
-  }, [active]);
+  }, []);
 
-  // scroll spy
   useEffect(() => {
     const onScroll = () => {
-      const y = window.scrollY + 120;
+      const y = window.scrollY + 130;
       let cur = 'top';
       for (const id of SPY_IDS) {
         const el = document.getElementById(id);
@@ -31,7 +28,7 @@ function App() {
   }, []);
 
   return (
-    <div style={{ minHeight: '100vh', background: '#fff' }}>
+    <div className="mx-auto bg-ivory" style={{ maxWidth: 1280 }}>
       <Header go={go} active={active} />
       <Hero go={go} />
       <QuickActions go={go} />
