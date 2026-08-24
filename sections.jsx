@@ -98,7 +98,7 @@ function Hero({ go }) {
       <div className="absolute inset-0 bg-gradient-to-b from-ivory/95 via-ivory/90 to-ivory/95 sm:bg-gradient-to-r sm:from-ivory sm:via-ivory/95 sm:to-transparent"></div>
 
       <div className="relative px-5 sm:px-14 pt-14 sm:pt-28 pb-16 sm:pb-32 max-w-[1280px] mx-auto flex flex-col justify-center min-h-[440px] sm:min-h-[560px]">
-        <div style={{ maxWidth: 660 }}>
+        <Reveal style={{ maxWidth: 660 }}>
           <Eyebrow en="Music &amp; Visual Guide">{VENUE.name}</Eyebrow>
           <h1 className="font-mincho text-ink mt-6 sm:mt-9 text-3xl sm:text-4xl lg:text-[46px] leading-[1.35] sm:leading-[1.5]" style={{ letterSpacing: '.06em', fontWeight: 400 }}>
             お二人の結婚式を、<br />最高の<span className="text-goldDeep">音</span>と<span className="text-goldDeep">映像</span>で。
@@ -107,7 +107,7 @@ function Hero({ go }) {
             打ち合わせの前に知っておきたい映像のつくり方やBGMのルールを、このページひとつで。
             ご提出も、ご質問も、ここで完結します。
           </p>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -121,11 +121,11 @@ function QuickActions({ go }) {
         <SectionHead en="Quick Access" title="まずは、こちらから。"
           sub="知りたいこと・やりたいことから選んでください。" center />
         <div className="grid grid-cols-1 md:grid-cols-3 border border-line md:border-r-0 md:border-b-0">
-          {QUICK_ACTIONS.map((a) => {
+          {QUICK_ACTIONS.map((a, i) => {
             const I = icons[a.id];
             const targetId = a.target || a.scrollTo || a.tab || a.id;
             return (
-              <a key={a.id} href={`#${targetId}`}
+              <Reveal key={a.id} as="a" href={`#${targetId}`} delay={i * 90}
                 onClick={(e) => {
                   e.preventDefault();
                   go(targetId);
@@ -140,7 +140,7 @@ function QuickActions({ go }) {
                   style={{ fontSize: 10.5, letterSpacing: '.18em' }}>
                   VIEW <IconChevR size={13} />
                 </div>
-              </a>
+              </Reveal>
             );
           })}
         </div>
@@ -151,7 +151,7 @@ function QuickActions({ go }) {
 
 function AlertBand() {
   return (
-    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-12 px-6 sm:px-12 py-7 sm:py-11 mb-9 sm:mb-14" style={{ background: '#2C2823' }}>
+    <Reveal className="flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-12 px-6 sm:px-12 py-7 sm:py-11 mb-9 sm:mb-14" style={{ background: '#2C2823' }}>
       <div className="shrink-0 border border-gold/40 w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center text-gold"><IconClock size={24} /></div>
       <div className="flex-1">
         <div className="font-gothic text-goldSoft text-[11px] sm:text-[11.5px]" style={{ letterSpacing: '.22em' }}>ご提出期限のお願い</div>
@@ -162,7 +162,7 @@ function AlertBand() {
           権利申請・音源準備・会場での再生確認のためのお時間です。お早めのご準備にご協力ください。
         </p>
       </div>
-    </div>
+    </Reveal>
   );
 }
 

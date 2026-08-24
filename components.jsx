@@ -55,11 +55,42 @@ function Eyebrow({ en, children, center = false, light = false }) {
 // Section heading block
 function SectionHead({ en, title, sub, center = false }) {
   return (
-    <div className={`${center ? 'text-center flex flex-col items-center' : ''} mb-9 sm:mb-14`}>
+    <Reveal className={`${center ? 'text-center flex flex-col items-center' : ''} mb-9 sm:mb-14`}>
       <Eyebrow en={en} center={center} />
       <h2 className="font-mincho text-ink mt-5 sm:mt-6 leading-[1.4] sm:leading-[1.45] text-2xl sm:text-[31px]" style={{ letterSpacing: '.04em', fontWeight: 400 }}>{title}</h2>
       {sub && <p className="font-gothic text-muted mt-3.5 sm:mt-5 leading-[1.85] sm:leading-[2] text-[12.5px] sm:text-[13.5px]" style={{ maxWidth: 620 }}>{sub}</p>}
-    </div>
+    </Reveal>
+  );
+}
+
+// Scroll-reveal wrapper — fades/slides children in once when scrolled into view.
+// Renders as `as` (default div), forwarding className/style so it can drop into
+// existing layout (grid/flex items) without adding extra box structure.
+function Reveal({ children, as = 'div', delay = 0, className = '', style = {}, ...rest }) {
+  const ref = React.useRef(null);
+  const [visible, setVisible] = React.useState(false);
+
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -10% 0px' });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  const Tag = as;
+  return (
+    <Tag ref={ref} className={`reveal ${visible ? 'is-visible' : ''} ${className}`}
+      style={{ ...style, transitionDelay: visible ? `${delay}ms` : '0ms' }} {...rest}>
+      {children}
+    </Tag>
   );
 }
 
@@ -83,4 +114,4 @@ function Btn({ children, variant = 'solid', size = 'md', icon, onClick, classNam
   );
 }
 
-Object.assign(window, { Logo, Placeholder, Chip, Eyebrow, SectionHead, Btn });
+Object.assign(window, { Logo, Placeholder, Chip, Eyebrow, SectionHead, Btn, Reveal });

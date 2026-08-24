@@ -101,7 +101,7 @@ function MusicGuideHeader() {
 function MusicTop() {
   return (
     <section id="top" className="scroll-mt-16 px-5 sm:px-14 pt-20 sm:pt-32 pb-16 sm:pb-24 text-center">
-      <div className="max-w-[1280px] mx-auto flex flex-col items-center">
+      <Reveal className="max-w-[1280px] mx-auto flex flex-col items-center">
         <span className="text-goldDeep/70"><IconMusic size={30} /></span>
         <Eyebrow en="Song Selection Guide" center />
         <h1 className="font-mincho text-ink mt-7 leading-[1.5] text-[26px] sm:text-[34px]" style={{ letterSpacing: '.05em', fontWeight: 400 }}>
@@ -113,7 +113,7 @@ function MusicTop() {
         <a href="#concept" className="mt-12 sm:mt-16 text-goldDeep/60 hover:text-goldDeep transition-colors duration-300">
           <IconChevD size={22} />
         </a>
-      </div>
+      </Reveal>
     </section>
   );
 }
@@ -130,12 +130,12 @@ function MusicConcept() {
             { icon: IconHeart, label: 'ドレス', body: 'お二人が選んだドレスの雰囲気' },
             { icon: IconSparkle, label: '装花・空間', body: '会場のコーディネートやテーマ' },
             { icon: IconMusic, label: '音楽', body: 'それらに寄り添う一曲' },
-          ].map((c) => (
-            <div key={c.label} className="bg-white border border-line px-6 py-8 text-center">
+          ].map((c, i) => (
+            <Reveal key={c.label} delay={i * 90} className="bg-white border border-line px-6 py-8 text-center">
               <span className="text-goldDeep/70 inline-block"><c.icon size={24} /></span>
               <div className="font-mincho text-ink mt-4" style={{ fontSize: 14.5, letterSpacing: '.04em' }}>{c.label}</div>
               <div className="font-gothic text-muted mt-2" style={{ fontSize: 11.5 }}>{c.body}</div>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -151,18 +151,18 @@ function MusicExample() {
         <SectionHead en="For example" title="ひとつのイメージに、絞らなくていい。" center
           sub="選曲のポイントですが、ひとつのイメージだけではなく、複数のイメージを組み合わせることもおすすめしております。" />
         <div className="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div>
+          <Reveal>
             <Placeholder label="白ドレス" ratio="4/3" />
             <p className="font-gothic text-ink/70 mt-4 leading-[1.9] text-[12.5px] text-center">
               前半のウェディングドレスでは<br />『古き良き上質な音楽』
             </p>
-          </div>
-          <div>
+          </Reveal>
+          <Reveal delay={100}>
             <Placeholder label="カラードレス" ratio="4/3" />
             <p className="font-gothic text-ink/70 mt-4 leading-[1.9] text-[12.5px] text-center">
               後半のカラードレスでは<br />『最新のトレンド音楽』
             </p>
-          </div>
+          </Reveal>
         </div>
         <p className="text-center font-gothic text-muted mt-8 text-[12px]">などが、コーディネートの一例です。</p>
       </div>
@@ -179,7 +179,7 @@ function MusicRecommend({ onOpen }) {
           sub="異なるイメージ毎に、音楽の組み合わせ例をご紹介します。カードを選ぶと曲目が開きます。" />
         <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-3 border border-line sm:border-r-0 sm:border-b-0">
           {PLAYLISTS.map((pl, i) => (
-            <button key={pl.id} onClick={() => onOpen(i)}
+            <Reveal key={pl.id} as="button" delay={i * 90} onClick={() => onOpen(i)}
               className="group text-left bg-white border-b sm:border-r border-line px-6 py-9 transition-colors duration-300 hover:bg-cream/60 sm:last:border-b-0">
               <span className="font-enserif text-gold" style={{ fontSize: 20 }}>{String(i + 1).padStart(2, '0')}</span>
               <div className="font-mincho text-ink mt-4 leading-relaxed" style={{ fontSize: 14.5, letterSpacing: '.03em' }}>{pl.title}</div>
@@ -187,7 +187,7 @@ function MusicRecommend({ onOpen }) {
                 style={{ fontSize: 10.5, letterSpacing: '.18em' }}>
                 曲目を見る <IconChevR size={13} />
               </div>
-            </button>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -250,7 +250,7 @@ function PlaylistModal({ playlist, onClose }) {
 function MusicHowIsIt() {
   return (
     <section id="howisit" className="scroll-mt-16 px-5 sm:px-14 py-16 sm:py-24 text-center">
-      <div className="max-w-[1280px] mx-auto flex flex-col items-center">
+      <Reveal className="max-w-[1280px] mx-auto flex flex-col items-center">
         <Eyebrow en="How is it?" center />
         <p className="font-mincho text-ink mt-7 leading-[1.9] text-[16px] sm:text-[18px]" style={{ letterSpacing: '.04em', maxWidth: 480 }}>
           音楽のイメージはいかがですか？<br />
@@ -258,7 +258,7 @@ function MusicHowIsIt() {
           ちょっと大変なことですよね。
         </p>
         <p className="font-mincho text-goldDeep mt-8" style={{ fontSize: 16, letterSpacing: '.06em' }}>でも、ご安心ください。</p>
-      </div>
+      </Reveal>
     </section>
   );
 }
@@ -267,7 +267,7 @@ function MusicHowIsIt() {
 function MusicIntroduce() {
   return (
     <section id="introduce" className="scroll-mt-16 px-5 sm:px-14 py-16 sm:py-24 bg-cream/50">
-      <div className="max-w-3xl mx-auto bg-white border border-line px-7 sm:px-11 py-10 sm:py-14 flex items-start gap-6 sm:gap-8">
+      <Reveal className="max-w-3xl mx-auto bg-white border border-line px-7 sm:px-11 py-10 sm:py-14 flex items-start gap-6 sm:gap-8">
         <span className="shrink-0 text-goldDeep/70"><IconPerson size={30} /></span>
         <div>
           <Eyebrow en="Introduce" />
@@ -278,7 +278,7 @@ function MusicIntroduce() {
             音楽のプロが、おふたりのイメージに合う楽曲をご提案させていただきますので、お打ち合わせ当日までは、楽しみながら音楽のイメージを膨らませてご準備していただけたらと思います。
           </p>
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }
@@ -287,7 +287,7 @@ function MusicIntroduce() {
 function MusicClosing() {
   return (
     <section id="closing" className="scroll-mt-16 px-5 sm:px-14 py-20 sm:py-28 text-center" style={{ background: '#2C2823' }}>
-      <div className="max-w-[1280px] mx-auto flex flex-col items-center">
+      <Reveal className="max-w-[1280px] mx-auto flex flex-col items-center">
         <p className="font-mincho text-ivory leading-[1.9]" style={{ fontSize: 16, letterSpacing: '.05em' }}>
           それでは、お会いできることを楽しみにしております。
         </p>
@@ -296,7 +296,7 @@ function MusicClosing() {
           style={{ fontSize: 12.5, letterSpacing: '.12em' }}>
           ご案内ページへ戻る <IconChevR size={14} />
         </a>
-      </div>
+      </Reveal>
     </section>
   );
 }

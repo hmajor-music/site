@@ -122,7 +122,7 @@ function ExportFlow() {
     <div className="mb-8 sm:mb-12 border border-line bg-white flex flex-col sm:flex-row">
       {EXPORT_STEPS.map((s, i) => (
         <React.Fragment key={s.label}>
-          <div className="flex-1 flex sm:flex-col items-center text-left sm:text-center gap-4 sm:gap-2.5 px-5 sm:px-3 py-5 sm:py-7">
+          <Reveal delay={i * 80} className="flex-1 flex sm:flex-col items-center text-left sm:text-center gap-4 sm:gap-2.5 px-5 sm:px-3 py-5 sm:py-7">
             <div className="shrink-0 w-11 h-11 sm:w-12 sm:h-12 rounded-full border border-gold/50 bg-cream/40 text-goldDeep flex items-center justify-center">
               {s.icon}
             </div>
@@ -131,7 +131,7 @@ function ExportFlow() {
               <div className="font-mincho text-ink text-[13.5px] sm:text-[14px] mt-0.5" style={{ letterSpacing: '.02em' }}>{s.label}</div>
               <div className="font-gothic text-muted text-[10.5px] sm:text-[11px] mt-1">{s.sub}</div>
             </div>
-          </div>
+          </Reveal>
           {i < EXPORT_STEPS.length - 1 && (
             <div className="hidden sm:flex items-center justify-center text-line/80 px-0.5">
               <IconChevR size={16} />
@@ -161,7 +161,7 @@ function ExportGuideSection() {
       <AlertBand />
 
       {/* HEVC 警告 */}
-      <div className="flex items-stretch mb-8 sm:mb-10" style={{ background: '#2C2823' }}>
+      <Reveal className="flex items-stretch mb-8 sm:mb-10" style={{ background: '#2C2823' }}>
         <div className="w-1.5 bg-gold shrink-0"></div>
         <div className="flex-1 flex flex-col sm:flex-row items-start gap-4 sm:gap-6 p-5 sm:p-8">
           <div className="shrink-0 border border-gold/45 w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center text-gold"><IconAlert size={24} /></div>
@@ -179,16 +179,16 @@ function ExportGuideSection() {
             </div>
           </div>
         </div>
-      </div>
+      </Reveal>
 
       {/* 動画ファイル事前チェック */}
-      <div className="mb-8 sm:mb-12">
+      <Reveal className="mb-8 sm:mb-12">
         <VideoChecker />
-      </div>
+      </Reveal>
 
       {/* 確実な設定 / 避ける設定 */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-8 sm:mb-12">
-        <div className="col-span-1 lg:col-span-3 bg-white border border-line p-6 sm:p-9">
+        <Reveal className="col-span-1 lg:col-span-3 bg-white border border-line p-6 sm:p-9">
           <div className="flex items-center gap-2.5 mb-4">
             <span className="text-goldDeep"><IconCheck size={17} /></span>
             <h3 className="font-mincho text-ink text-base sm:text-[17px]">確実に再生できる設定</h3>
@@ -197,9 +197,9 @@ function ExportGuideSection() {
             <div>{EXPORT_SPECS.slice(0, 3).map((s) => <SpecRow key={s.k} {...s} />)}</div>
             <div>{EXPORT_SPECS.slice(3).map((s) => <SpecRow key={s.k} {...s} />)}</div>
           </div>
-        </div>
+        </Reveal>
 
-        <div className="col-span-1 lg:col-span-2 bg-white border border-line p-6 sm:p-9">
+        <Reveal delay={100} className="col-span-1 lg:col-span-2 bg-white border border-line p-6 sm:p-9">
           <div className="flex items-center gap-2.5 mb-4">
             <span className="text-ink/40"><IconClose size={17} /></span>
             <h3 className="font-mincho text-ink text-base sm:text-[17px]">避けてください</h3>
@@ -215,7 +215,7 @@ function ExportGuideSection() {
               </li>
             ))}
           </ul>
-        </div>
+        </Reveal>
       </div>
 
       {/* アプリ別手順 */}
@@ -225,17 +225,19 @@ function ExportGuideSection() {
       </div>
       <div className="flex flex-col gap-3.5">
         {APP_GUIDES.map((g, i) => (
-          <AppGuide key={g.name} g={g} open={open === i} onToggle={() => setOpen(open === i ? -1 : i)} />
+          <Reveal key={g.name} delay={i * 80}>
+            <AppGuide g={g} open={open === i} onToggle={() => setOpen(open === i ? -1 : i)} />
+          </Reveal>
         ))}
       </div>
 
       {/* 提出メモ */}
-      <div className="mt-8 sm:mt-10 border border-beige px-5 sm:px-8 py-5 sm:py-6 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-5">
+      <Reveal className="mt-8 sm:mt-10 border border-beige px-5 sm:px-8 py-5 sm:py-6 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-5">
         <span className="shrink-0 text-goldDeep"><IconUpload size={22} /></span>
         <p className="font-gothic text-ink/75 leading-relaxed text-[12px] sm:text-[12.5px]">
           上記設定なら、5〜6分の映像でもファイルは数百MB〜2GB程度に収まり、提出フォームからスムーズに送信できます。
         </p>
-      </div>
+      </Reveal>
       </div>
     </section>
   );

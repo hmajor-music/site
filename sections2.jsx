@@ -29,7 +29,7 @@ function ManualSection() {
 
       <div className="max-w-2xl mx-auto">
         {/* 映像 */}
-        <div className="bg-white border border-line p-6 sm:p-10">
+        <Reveal className="bg-white border border-line p-6 sm:p-10">
           <div className="flex items-center gap-3.5 sm:gap-4 mb-5 sm:mb-7">
             <span className="text-goldDeep/70"><IconFilm size={22} /></span>
             <h3 className="font-mincho text-ink text-base sm:text-[19px]" style={{ letterSpacing: '.04em' }}>映像の作り方・ルール</h3>
@@ -55,14 +55,14 @@ function ManualSection() {
               </div>
             </div>
           </div>
-        </div>
+        </Reveal>
       </div>
 
       {/* ── 映像づくりで気をつけたい 2つのポイント ── */}
       <SubHead>映像づくりで気をつけたい、2つのポイント</SubHead>
       <div className="grid grid-cols-1 md:grid-cols-2 border border-line md:border-r-0 md:border-b-0">
         {/* 1. 黒画面 */}
-        <div className="bg-white border-b md:border-r border-line p-6 sm:p-8 flex flex-col">
+        <Reveal className="bg-white border-b md:border-r border-line p-6 sm:p-8 flex flex-col">
           <div className="flex items-baseline gap-3 sm:gap-4 mb-4 sm:mb-6">
             <span className="font-enserif text-gold text-lg sm:text-[22px]">01</span>
             <h4 className="font-mincho text-ink text-[15px] sm:text-[16px]" style={{ letterSpacing: '.03em' }}>映像の前後に黒画面を5秒</h4>
@@ -83,10 +83,10 @@ function ManualSection() {
             <span className="text-goldDeep font-medium">メニュー画面が映り込む</span>、または早めに停止して
             <span className="text-goldDeep font-medium">最後の映像・音声が切れてしまう</span>リスクがあります。
           </p>
-        </div>
+        </Reveal>
 
         {/* 2. 表示範囲 / セーフエリア */}
-        <div className="bg-white border-b md:border-r border-line p-6 sm:p-8 flex flex-col last:border-b-0 md:last:border-b">
+        <Reveal delay={90} className="bg-white border-b md:border-r border-line p-6 sm:p-8 flex flex-col last:border-b-0 md:last:border-b">
           <div className="flex items-baseline gap-3 sm:gap-4 mb-4 sm:mb-6">
             <span className="font-enserif text-gold text-lg sm:text-[22px]">02</span>
             <h4 className="font-mincho text-ink text-[15px] sm:text-[16px]" style={{ letterSpacing: '.03em' }}>文字は内側に余裕を</h4>
@@ -100,7 +100,7 @@ function ManualSection() {
             PC画面の表示がそのままプロジェクターに投影されます。端ぎりぎりの文字は
             <span className="text-goldDeep font-medium">一部が途切れる</span>可能性があるため、表示領域より少し内側に配置してください。
           </p>
-        </div>
+        </Reveal>
       </div>
       </div>
     </section>);
@@ -110,7 +110,7 @@ function ManualSection() {
 function PhilosophySection() {
   return (
     <section id="philosophy" className="scroll-mt-20 px-5 sm:px-14 py-12 sm:py-24">
-      <div className="grid grid-cols-1 md:grid-cols-5" style={{ background: '#F4EEE3' }}>
+      <Reveal className="grid grid-cols-1 md:grid-cols-5" style={{ background: '#F4EEE3' }}>
         <img src="logo/meeting.jpg" alt="" className="col-span-1 md:col-span-2 block w-full h-56 sm:h-80 md:h-full object-cover" style={{ objectPosition: '55% 50%' }} />
         <div className="col-span-1 md:col-span-3 px-6 sm:px-14 py-8 sm:py-16">
           <Eyebrow en="Our Philosophy">選曲について</Eyebrow>
@@ -142,7 +142,7 @@ function PhilosophySection() {
             <IconChevR size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
           </a>
         </div>
-      </div>
+      </Reveal>
     </section>);
 }
 

@@ -8,7 +8,7 @@ function SubmitSection() {
       <SectionHead en="Data Submission" title="データ提出窓口"
       sub={`下記の専用フォームから、映像データをご提出ください。${VENUE.name} でご披露宴のお客様専用の窓口です。`} center />
 
-      <div className="max-w-4xl mx-auto bg-white border border-line">
+      <Reveal className="max-w-4xl mx-auto bg-white border border-line">
         <div className="grid grid-cols-1 md:grid-cols-5">
           {VENUE.venueImage
             ? <img src={VENUE.venueImage} alt={VENUE.name} className="block w-full h-52 sm:h-72 md:h-full object-cover col-span-1 md:col-span-2" />
@@ -39,11 +39,11 @@ function SubmitSection() {
             </div>
           </div>
         </div>
-      </div>
+      </Reveal>
 
       {/* footnote: checklist + deadline */}
       <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 mt-6 sm:mt-8">
-        <div className="col-span-1 md:col-span-2 bg-white border border-line px-6 sm:px-9 py-6 sm:py-8">
+        <Reveal className="col-span-1 md:col-span-2 bg-white border border-line px-6 sm:px-9 py-6 sm:py-8">
           <div className="font-mincho text-ink mb-4 sm:mb-6 text-[14px] sm:text-[15px]" style={{ letterSpacing: '.04em' }}>フォームを開く前に、ご確認ください</div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 sm:gap-y-4">
             {['アスペクト比 16:9・解像度 1920×1080', '映像の前後に黒画面（5秒）を入れた', 'MP4（H.264）形式で書き出した', '文字が端で切れていないか確認した'].map((t) =>
@@ -53,12 +53,12 @@ function SubmitSection() {
               </div>
             )}
           </div>
-        </div>
-        <div className="px-6 sm:px-8 py-6 sm:py-8 flex flex-col justify-center" style={{ background: '#2C2823' }}>
+        </Reveal>
+        <Reveal delay={100} className="px-6 sm:px-8 py-6 sm:py-8 flex flex-col justify-center" style={{ background: '#2C2823' }}>
           <div className="font-gothic text-goldSoft text-[9.5px] sm:text-[10px]" style={{ letterSpacing: '.22em' }}>DEADLINE</div>
           <div className="font-mincho text-ivory mt-2.5 sm:mt-3 leading-snug text-base sm:text-[16px]" style={{ letterSpacing: '.04em' }}>ご披露宴<br />2週間前まで</div>
           <div className="font-gothic text-ivory/50 sm:text-ivory/45 mt-2.5 sm:mt-3.5 leading-relaxed text-[10.5px] sm:text-[11px]">再生確認の為お早めにご提出ください。</div>
-        </div>
+        </Reveal>
       </div>
 
       <p className="text-center font-gothic text-muted mt-6 sm:mt-9 text-[10.5px] sm:text-[11px]">
@@ -94,21 +94,21 @@ function SupportSection() {
       sub="よくあるご質問をまとめました。解決しないときはお気軽にお問い合わせください。" center />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-10">
         {/* FAQ */}
-        <div className="col-span-1 lg:col-span-2 bg-white border border-line px-5 sm:px-10 py-2 sm:py-4">
+        <Reveal className="col-span-1 lg:col-span-2 bg-white border border-line px-5 sm:px-10 py-2 sm:py-4">
           {FAQS.map((item, i) =>
             <FaqItem key={i} item={item} open={open === i} onToggle={() => setOpen(open === i ? -1 : i)} />
           )}
-        </div>
+        </Reveal>
 
         {/* contact */}
-        <div id="contact" className="col-span-1 scroll-mt-20">
+        <Reveal as="div" delay={100} id="contact" className="col-span-1 scroll-mt-20">
           <div className="px-6 sm:px-8 py-7 sm:py-9 text-center" style={{ background: '#F4EEE3' }}>
             <div className="font-mincho text-ink text-[14.5px] sm:text-[15.5px]" style={{ letterSpacing: '.04em' }}>解決しないときは</div>
             <p className="font-gothic text-muted mt-2 sm:mt-3 leading-[1.8] sm:leading-[1.9] text-[11.5px] sm:text-[12px]">下記の窓口までお気軽にお問い合わせください。</p>
             <div className="mt-4 sm:mt-6 font-mincho text-goldDeep text-[14.5px] sm:text-[16px] break-all" style={{ letterSpacing: '.02em' }}>{VENUE.contactEmail}</div>
             <div className="font-gothic text-muted mt-2 sm:mt-2.5 text-[10.5px] sm:text-[11px]">{VENUE.businessHours}</div>
           </div>
-        </div>
+        </Reveal>
       </div>
       </div>
     </section>);
