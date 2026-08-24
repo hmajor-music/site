@@ -130,6 +130,7 @@ function Footer({ go }) {
           {NAV.map((n) =>
             <button key={n.id} onClick={() => go(n.id)} className="font-gothic text-ivory/65 hover:text-gold transition-colors duration-300 text-[11.5px] sm:text-[11.5px]" style={{ letterSpacing: '.1em' }}>{n.label}</button>
           )}
+          <a href={`music-guide.html${window.location.search}`} className="font-gothic text-ivory/65 hover:text-gold transition-colors duration-300 text-[11.5px] sm:text-[11.5px] no-underline" style={{ letterSpacing: '.1em' }}>音楽ガイド</a>
         </nav>
       </div>
       <div className="flex flex-col sm:flex-row gap-2 sm:gap-0 items-start sm:items-center justify-between pt-5 sm:pt-7">

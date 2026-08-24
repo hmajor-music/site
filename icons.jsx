@@ -32,9 +32,10 @@ const IconPhone  = (p) => <Ic {...p}><rect x="7" y="3" width="10" height="18" rx
 const IconLaptop = (p) => <Ic {...p}><rect x="5" y="5" width="14" height="10" rx="1.5"/><path d="M3 19h18"/></Ic>;
 const IconHeart  = (p) => <Ic {...p}><path d="M12 20s-7-4.5-9.5-9C1 8 2.5 4.5 6 4.5c2 0 3.2 1.2 4 2.4.8-1.2 2-2.4 4-2.4 3.5 0 5 3.5 3.5 6.5C19 15.5 12 20 12 20z"/></Ic>;
 const IconMenu   = (p) => <Ic {...p}><path d="M4 6h16M4 12h16M4 18h16"/></Ic>;
+const IconPlay   = (p) => <Ic {...p} fill><path d="M7 4.5v15l13-7.5z" fill="currentColor" stroke="none"/></Ic>;
 
 Object.assign(window, {
   IconFilm, IconMusic, IconPerson, IconUpload, IconClock, IconChevD, IconChevR, IconChevL,
   IconPlus, IconMinus, IconChat, IconCheck, IconClose, IconSearch, IconDownload,
-  IconMonitor, IconSpeaker, IconSparkle, IconArrowR, IconHeart, IconPin, IconExternal, IconAlert, IconPhone, IconLaptop, IconMenu,
+  IconMonitor, IconSpeaker, IconSparkle, IconArrowR, IconHeart, IconPin, IconExternal, IconAlert, IconPhone, IconLaptop, IconMenu, IconPlay,
 });
