@@ -24,10 +24,8 @@ function ManualSection() {
   return (
     <section id="manual" className="scroll-mt-20 px-5 sm:px-14 py-12 sm:py-24 bg-cream/50">
       <div className="max-w-[1280px] mx-auto">
-      <SectionHead en="Manual" title="映像づくりの、基本ルール。"
-      sub="ここを押さえれば、当日の再生トラブルはほぼ防げます。" center />
-
-      <AlertBand />
+      <SectionHead en="Manual" title="映像づくりの、基本ルール"
+      sub="まずは映像を作るときに押さえておきたい、基本の形をご紹介します。" center />
 
       <div className="max-w-2xl mx-auto">
         {/* 映像 */}
@@ -38,8 +36,6 @@ function ManualSection() {
           </div>
           <div className="mb-6 sm:mb-8">
             <SpecRow icon={<IconMonitor size={18} />} k="アスペクト比" v="16 : 9" accent />
-            <SpecRow icon={<IconSparkle size={18} />} k="解像度" v="1920×1080（フルHD）まで対応可" accent />
-            <SpecRow icon={<IconFilm size={18} />} k="データ形式" v="MP4（H.264）" />
             <SpecRow icon={<IconClock size={18} />} k="長さの目安" v="4〜6分 程度" />
           </div>
           {/* aspect do / don't */}
@@ -62,9 +58,9 @@ function ManualSection() {
         </div>
       </div>
 
-      {/* ── 上映トラブルを防ぐ 3つのポイント ── */}
-      <SubHead>上映トラブルを防ぐ、3つのポイント</SubHead>
-      <div className="grid grid-cols-1 md:grid-cols-3 border border-line md:border-r-0 md:border-b-0">
+      {/* ── 映像づくりで気をつけたい 2つのポイント ── */}
+      <SubHead>映像づくりで気をつけたい、2つのポイント</SubHead>
+      <div className="grid grid-cols-1 md:grid-cols-2 border border-line md:border-r-0 md:border-b-0">
         {/* 1. 黒画面 */}
         <div className="bg-white border-b md:border-r border-line p-6 sm:p-8 flex flex-col">
           <div className="flex items-baseline gap-3 sm:gap-4 mb-4 sm:mb-6">
@@ -89,32 +85,10 @@ function ManualSection() {
           </p>
         </div>
 
-        {/* 2. 解像度 / 変換 */}
-        <div className="bg-white border-b md:border-r border-line p-6 sm:p-8 flex flex-col">
-          <div className="flex items-baseline gap-3 sm:gap-4 mb-4 sm:mb-6">
-            <span className="font-enserif text-gold text-lg sm:text-[22px]">02</span>
-            <h4 className="font-mincho text-ink text-[15px] sm:text-[16px]" style={{ letterSpacing: '.03em' }}>解像度は 1920×1080</h4>
-          </div>
-          <div className="bg-ivory border border-line py-4 sm:py-5 text-center">
-            <div className="font-enserif text-goldDeep leading-none text-2xl sm:text-[30px]">1920×1080</div>
-            <div className="font-gothic text-muted mt-2 sm:mt-2.5 text-[9.5px] sm:text-[10px]" style={{ letterSpacing: '.22em' }}>フルHD ／ 16 : 9</div>
-          </div>
-          <div className="flex items-center gap-2 mt-3 sm:mt-4 font-gothic text-muted text-[11px] sm:text-[11.5px]">
-            <IconClose size={15} className="text-ink/40" /> 4K 非対応
-          </div>
-          <p className="font-gothic text-ink/70 leading-[1.85] sm:leading-[1.95] mt-2 sm:mt-2.5 flex-1 text-[12px]">
-            これを超える設定は会場プロジェクターが対応しておりません。必ず 1920×1080（16:9）で書き出してください。
-          </p>
-          <div className="mt-4 flex items-center gap-2.5 border border-beige px-3.5 sm:px-4 py-2.5 sm:py-3">
-            <span className="text-goldDeep shrink-0"><IconDownload size={16} /></span>
-            <span className="font-gothic text-goldDeep text-[11px] sm:text-[11.5px]">推奨変換ソフト：Clipchamp（無料）</span>
-          </div>
-        </div>
-
-        {/* 3. 表示範囲 / セーフエリア */}
+        {/* 2. 表示範囲 / セーフエリア */}
         <div className="bg-white border-b md:border-r border-line p-6 sm:p-8 flex flex-col last:border-b-0 md:last:border-b">
           <div className="flex items-baseline gap-3 sm:gap-4 mb-4 sm:mb-6">
-            <span className="font-enserif text-gold text-lg sm:text-[22px]">03</span>
+            <span className="font-enserif text-gold text-lg sm:text-[22px]">02</span>
             <h4 className="font-mincho text-ink text-[15px] sm:text-[16px]" style={{ letterSpacing: '.03em' }}>文字は内側に余裕を</h4>
           </div>
           <div className="relative overflow-hidden bg-ink" style={{ aspectRatio: '16/9' }}>
@@ -161,6 +135,12 @@ function PhilosophySection() {
           <p className="font-mincho text-goldDeep mt-7 sm:mt-10 text-[15px] sm:text-[17px]" style={{ letterSpacing: '.06em' }}>
             どうぞ、私たちの耳と提案を信じて、リラックスしてお越しください。
           </p>
+          <a href={`music-guide.html${window.location.search}`}
+            className="group inline-flex items-center gap-2.5 mt-6 sm:mt-8 font-gothic text-ink border border-ink/25 hover:border-ink px-6 py-3 sm:px-7 sm:py-3.5 transition-colors duration-300 no-underline"
+            style={{ fontSize: 12.5, letterSpacing: '.12em' }}>
+            選曲イメージの組み合わせやポイントを見る
+            <IconChevR size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
+          </a>
         </div>
       </div>
     </section>);

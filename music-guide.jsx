@@ -103,7 +103,7 @@ function MusicTop() {
     <section id="top" className="scroll-mt-16 px-5 sm:px-14 pt-20 sm:pt-32 pb-16 sm:pb-24 text-center">
       <div className="max-w-[1280px] mx-auto flex flex-col items-center">
         <span className="text-goldDeep/70"><IconMusic size={30} /></span>
-        <Eyebrow en="Bridal Music Guide" center />
+        <Eyebrow en="Song Selection Guide" center />
         <h1 className="font-mincho text-ink mt-7 leading-[1.5] text-[26px] sm:text-[34px]" style={{ letterSpacing: '.05em', fontWeight: 400 }}>
           おふたりのイメージを、<br className="sm:hidden" />音楽でも表現します。
         </h1>
@@ -306,7 +306,7 @@ function MusicGuideApp() {
   const [openIndex, setOpenIndex] = React.useState(null);
 
   React.useEffect(() => {
-    document.title = `音楽のご案内 ｜ ${VENUE.name}`;
+    document.title = `選曲ガイド ｜ ${VENUE.name}`;
   }, []);
 
   return (

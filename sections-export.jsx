@@ -153,10 +153,12 @@ function ExportGuideSection() {
   return (
     <section id="export" className="scroll-mt-20 px-5 sm:px-14 py-12 sm:py-24">
       <div className="max-w-[1280px] mx-auto">
-      <SectionHead en="Export Guide" title="再生トラブルを防ぐ、書き出しガイド。"
+      <SectionHead en="Export Guide" title="再生トラブルを防ぐ、書き出しガイド"
         sub="会場の再生機（TASCAM BD-MP1MKII）で確実に流すための設定です。この通りに書き出せば、当日の“映らない”をほぼ防げます。" center />
 
       <ExportFlow />
+
+      <AlertBand />
 
       {/* HEVC 警告 */}
       <div className="flex items-stretch mb-8 sm:mb-10" style={{ background: '#2C2823' }}>
@@ -194,10 +196,6 @@ function ExportGuideSection() {
           <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-x-8">
             <div>{EXPORT_SPECS.slice(0, 3).map((s) => <SpecRow key={s.k} {...s} />)}</div>
             <div>{EXPORT_SPECS.slice(3).map((s) => <SpecRow key={s.k} {...s} />)}</div>
-          </div>
-          <div className="mt-5 sm:mt-6 flex items-start sm:items-center gap-3 bg-ivory border border-line px-3.5 sm:px-4 py-3 sm:py-3.5">
-            <span className="text-goldDeep shrink-0 mt-0.5 sm:mt-0"><IconFilm size={16} /></span>
-            <span className="font-gothic text-ink/75 text-[11.5px] sm:text-[12.5px]">映像の<span className="font-medium text-ink">前後に黒画面を5秒</span>入れると、頭切れ・メニュー映り込みを防げます。</span>
           </div>
         </div>
 

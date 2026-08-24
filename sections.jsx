@@ -40,7 +40,7 @@ function Header({ go, active }) {
           <a href={`music-guide.html${window.location.search}`}
             className="font-gothic text-ink/65 hover:text-ink transition-colors duration-300 whitespace-nowrap no-underline"
             style={{ fontSize: 12, letterSpacing: '.1em' }}>
-            音楽ガイド
+            選曲ガイド
           </a>
           <Btn variant="goldout" size="sm" onClick={() => go('contact')} className="whitespace-nowrap">お問い合わせ</Btn>
         </nav>
@@ -74,7 +74,7 @@ function Header({ go, active }) {
             ))}
             <a href={`music-guide.html${window.location.search}`}
               className="text-left py-2.5 px-2 font-gothic text-[14px] tracking-wider border-b border-line/60 text-ink/80 no-underline">
-              音楽ガイド
+              選曲ガイド
             </a>
             <div className="pt-2">
               <Btn variant="goldout" size="md" onClick={() => handleNavClick('contact')} className="w-full">
