@@ -1,5 +1,14 @@
 // ── Reusable UI primitives ─────────────────────────────────────
 
+// Active page language — set via <script>window.LANG='en'</script> before these
+// files load (see index.html vs index-en.html). Defaults to Japanese.
+const LANG = window.LANG === 'en' ? 'en' : 'ja';
+// Pick the string for the active language; falls back to the Japanese copy
+// if no English translation was supplied for that piece of content yet.
+function T(ja, en) {
+  return LANG === 'en' ? (en != null && en !== '' ? en : ja) : ja;
+}
+
 // Brand logo — real Hmajor script wordmark (white bg keyed to transparent)
 function Logo({ light = false, h = 40, className = '' }) {
   return (
@@ -53,13 +62,40 @@ function Eyebrow({ en, children, center = false, light = false }) {
 }
 
 // Section heading block
-function SectionHead({ en, title, sub, center = false }) {
+function SectionHead({ en, title, titleEn, sub, subEn, center = false }) {
+  const shownTitle = T(title, titleEn);
+  const shownSub = T(sub, subEn);
   return (
     <Reveal className={`${center ? 'text-center flex flex-col items-center' : ''} mb-9 sm:mb-14`}>
       <Eyebrow en={en} center={center} />
-      <h2 className="font-mincho text-ink mt-5 sm:mt-6 leading-[1.4] sm:leading-[1.45] text-2xl sm:text-[31px]" style={{ letterSpacing: '.04em', fontWeight: 400 }}>{title}</h2>
-      {sub && <p className="font-gothic text-muted mt-3.5 sm:mt-5 leading-[1.85] sm:leading-[2] text-[12.5px] sm:text-[13.5px]" style={{ maxWidth: 620 }}>{sub}</p>}
+      <h2 className={`${LANG === 'en' ? 'font-enserif' : 'font-mincho'} text-ink mt-5 sm:mt-6 leading-[1.4] sm:leading-[1.45] text-2xl sm:text-[31px]`} style={{ letterSpacing: '.04em', fontWeight: 400 }}>{shownTitle}</h2>
+      {shownSub && <p className="font-gothic text-muted mt-3.5 sm:mt-5 leading-[1.85] sm:leading-[2] text-[12.5px] sm:text-[13.5px]" style={{ maxWidth: 620 }}>{shownSub}</p>}
     </Reveal>
+  );
+}
+
+// Link to the other-language version of the current page, keeping the
+// current query string (?venue=...) and hash intact.
+function otherLangHref() {
+  const { pathname, search, hash } = window.location;
+  const isEn = LANG === 'en';
+  let newPath;
+  if (/index-en\.html$/.test(pathname)) newPath = pathname.replace(/index-en\.html$/, 'index.html');
+  else if (/index\.html$/.test(pathname)) newPath = pathname.replace(/index\.html$/, 'index-en.html');
+  else if (pathname.endsWith('/')) newPath = pathname + (isEn ? 'index.html' : 'index-en.html');
+  else newPath = pathname + (isEn ? '/index.html' : '/index-en.html');
+  return newPath + search + hash;
+}
+
+function LangSwitch({ light = false, className = '' }) {
+  return (
+    <a href={otherLangHref()}
+      className={`font-gothic shrink-0 whitespace-nowrap border transition-colors duration-300 no-underline px-3 py-1.5 ${
+        light ? 'border-white/25 text-ivory/75 hover:border-white/60 hover:text-ivory' : 'border-ink/20 text-ink/65 hover:border-ink hover:text-ink'
+      } ${className}`}
+      style={{ fontSize: 11, letterSpacing: '.12em' }}>
+      {LANG === 'en' ? '日本語' : 'EN'}
+    </a>
   );
 }
 
@@ -114,4 +150,4 @@ function Btn({ children, variant = 'solid', size = 'md', icon, onClick, classNam
   );
 }
 
-Object.assign(window, { Logo, Placeholder, Chip, Eyebrow, SectionHead, Btn, Reveal });
+Object.assign(window, { LANG, T, Logo, Placeholder, Chip, Eyebrow, SectionHead, Btn, Reveal, LangSwitch });

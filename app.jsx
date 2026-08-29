@@ -13,7 +13,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    document.title = `${VENUE.name} ｜ Hmajor お客様案内ページ`;
+    document.title = T(`${VENUE.name} ｜ Hmajor お客様案内ページ`, `${VENUE.nameEn || VENUE.name} ｜ Hmajor Guest Guide`);
   }, []);
 
   useEffect(() => {
