@@ -457,11 +457,20 @@ function VideoChecker() {
   };
 
   return (
-    <div className="bg-white border border-line p-6 sm:p-9">
-      <div className="flex items-center gap-2.5 mb-2">
-        <span className="text-goldDeep"><IconUpload size={18} /></span>
-        <h3 className={`${LANG === 'en' ? 'font-enserif' : 'font-mincho'} text-ink text-base sm:text-[17px]`}>{T('動画ファイルを事前チェック', 'Pre-Check Your Video File')}</h3>
+    <div className="bg-white border-2 border-goldDeep p-6 sm:p-9 relative">
+      <div className="absolute -top-3 left-6 sm:left-9 bg-goldDeep text-ivory font-gothic text-[10.5px] sm:text-[11px] px-3 py-1" style={{ letterSpacing: '.08em' }}>
+        {T('必須｜提出前に必ずご確認ください', 'Required — Please check before submitting')}
       </div>
+      <div className="flex items-center gap-2.5 mb-2 mt-2 sm:mt-1">
+        <span className="text-goldDeep"><IconUpload size={20} /></span>
+        <h3 className={`${LANG === 'en' ? 'font-enserif' : 'font-mincho'} text-ink text-lg sm:text-[19px]`}>{T('動画ファイルを事前チェック', 'Pre-Check Your Video File')}</h3>
+      </div>
+      <p className="font-gothic text-red-600 leading-relaxed text-[12px] sm:text-[12.5px] mb-2 font-medium">
+        {T(
+          '会場で再生できない動画のご提出が多く発生しています。お手数ですが、提出前に必ずこのチェックをお試しください。',
+          'We have received many videos that could not be played at the venue. Please be sure to run this check before you submit your file.'
+        )}
+      </p>
       <p className="font-gothic text-ink/60 leading-relaxed text-[11.5px] sm:text-[12px] mb-5">
         {T(
           '提出前にお手元の動画ファイルを選択すると、会場の再生機器での適合状況をブラウザ上だけで判定します。ファイルはどこにもアップロードされません。',

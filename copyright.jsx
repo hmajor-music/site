@@ -140,13 +140,6 @@ function CopyrightSection() {
           </Reveal>
         ))}
       </div>
-
-      <p className="text-center font-gothic text-muted mt-6 sm:mt-9 mx-auto leading-[1.8] sm:leading-[1.9] text-[10.5px] sm:text-[11px] px-2" style={{ maxWidth: 620 }}>
-        {T(
-          '※ ご希望の楽曲や映像がご使用いただけるか判断に迷われる場合は、ご遠慮なく担当ミュージックプランナーへお尋ねください。',
-          "If you're unsure whether a song or clip you'd like to use is allowed, please feel free to ask your music planner."
-        )}
-      </p>
       </div>
     </section>
   );

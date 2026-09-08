@@ -124,7 +124,7 @@ const EXPORT_STEPS = [
   { icon: <IconDownload size={20} />, label: '指定の設定で書き出し', sub: 'MP4・H.264・1080p・23.976〜30fps', labelEn: 'Export with these settings', subEn: 'MP4 · H.264 · 1080p · 23.976–30fps' },
   { icon: <IconMonitor size={20} />, label: '事前チェック', sub: '下のツールでその場で確認', labelEn: 'Check it', subEn: 'Verify instantly with the tool below' },
   { icon: <IconUpload size={20} />, label: 'データを提出', sub: '専用フォームから提出', labelEn: 'Submit your file', subEn: 'Via the dedicated form' },
-  { icon: <IconCheck size={20} />, label: '会場で再生確認', sub: '当日まで安心してお任せ', labelEn: 'Venue playback check', subEn: 'We take it from there' },
+  { icon: <IconCheck size={20} />, label: '再生確認', sub: '当日まで安心してお任せ', labelEn: 'Playback check', subEn: 'We take it from there' },
 ];
 
 function ExportFlow() {
@@ -143,13 +143,13 @@ function ExportFlow() {
             </div>
           </Reveal>
           {i < EXPORT_STEPS.length - 1 && (
-            <div className="hidden sm:flex items-center justify-center text-line/80 px-0.5">
-              <IconChevR size={16} />
+            <div className="hidden sm:flex items-center justify-center text-gold px-1">
+              <IconChevR size={22} sw={2.5} />
             </div>
           )}
           {i < EXPORT_STEPS.length - 1 && (
-            <div className="sm:hidden flex justify-center text-line/80 border-t border-line/60 py-1.5">
-              <IconChevD size={16} />
+            <div className="sm:hidden flex justify-center text-gold border-t border-line/60 py-1.5">
+              <IconChevD size={20} sw={2.5} />
             </div>
           )}
         </React.Fragment>
@@ -194,14 +194,6 @@ function ExportGuideSection() {
                 <>スマートフォンは初期設定だと HEVC で書き出され、会場の再生機では映りません。下記アプリで <span className="text-goldSoft font-medium">H.264</span> として書き出してください。</>
               )}
             </p>
-            <div className="flex flex-col sm:flex-row flex-wrap gap-2 sm:gap-2.5 mt-4">
-              <span className="font-gothic text-ivory/80 border border-white/15 px-3 sm:px-4 py-1.5 sm:py-2 text-[11px] sm:text-[12px]">
-                {T('iPhone：設定 → カメラ → フォーマット →「互換性優先」', 'iPhone: Settings → Camera → Formats → "Most Compatible"')}
-              </span>
-              <span className="font-gothic text-ivory/80 border border-white/15 px-3 sm:px-4 py-1.5 sm:py-2 text-[11px] sm:text-[12px]">
-                {T('書き出し時に コーデック H.264 を選択', 'Select codec H.264 when exporting')}
-              </span>
-            </div>
           </div>
         </div>
       </Reveal>
@@ -252,8 +244,8 @@ function ExportGuideSection() {
         <span className="text-goldDeep mt-0.5 shrink-0"><IconSparkle size={15} /></span>
         <p className="font-gothic text-ink/60 leading-relaxed text-[11px] sm:text-[11.5px]">
           {T(
-            '以下は参考情報として掲載している手順です。アプリのバージョンや機種により画面や項目名が異なる場合がありますので、詳しい操作方法は各アプリの公式ヘルプ・サポートをご確認ください。',
-            'The steps below are provided for reference. Screens and menu names may differ by app version or device, so please check each app\'s official help or support for detailed instructions.'
+            '以下は参考情報として掲載している手順です。アプリのバージョンや機種により画面や項目名が異なる場合がありますので、詳しい操作方法は各アプリの公式ヘルプ・サポートをご確認ください。当方ではアプリの個別の操作方法についてのお問い合わせにはお答えできませんので、あらかじめご了承ください。',
+            'The steps below are provided for reference. Screens and menu names may differ by app version or device, so please check each app\'s official help or support for detailed instructions. Please note that we are unable to answer individual questions about how to operate these apps.'
           )}
         </p>
       </div>

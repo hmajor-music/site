@@ -180,6 +180,12 @@ function AlertBand() {
             'This time is needed for licensing, sourcing the audio, and a playback check at the venue — thank you for preparing early.'
           )}
         </p>
+        <p className="font-gothic text-ivory/60 sm:text-ivory/55 mt-2.5 sm:mt-3 leading-[1.75] sm:leading-[1.9] text-[12px] sm:text-[12.5px]" style={{ maxWidth: 660 }}>
+          {T(
+            'DVD・BDディスクでのご提出も承っております。その場合も同様に、挙式の2週間前までに会場へお届けください。',
+            'We also accept submissions on DVD or BD disc. In that case as well, please make sure it arrives at the venue at least 2 weeks before the ceremony.'
+          )}
+        </p>
       </div>
     </Reveal>
   );
