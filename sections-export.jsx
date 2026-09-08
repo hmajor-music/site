@@ -248,6 +248,15 @@ function ExportGuideSection() {
         <h3 className={`${LANG === 'en' ? 'font-enserif' : 'font-mincho'} text-ink text-lg sm:text-[21px]`} style={{ letterSpacing: '.05em' }}>{T('アプリ別・書き出し手順', 'Export Steps by App')}</h3>
         <span className="font-gothic text-muted text-[11.5px] sm:text-[12px]">{T('よく使われる無料アプリで解説します', 'Covering popular free apps')}</span>
       </div>
+      <div className="flex items-start gap-2.5 sm:gap-3 border border-beige px-3.5 sm:px-4 py-3 sm:py-3.5 mb-5 sm:mb-7">
+        <span className="text-goldDeep mt-0.5 shrink-0"><IconSparkle size={15} /></span>
+        <p className="font-gothic text-ink/60 leading-relaxed text-[11px] sm:text-[11.5px]">
+          {T(
+            '以下は参考情報として掲載している手順です。アプリのバージョンや機種により画面や項目名が異なる場合がありますので、詳しい操作方法は各アプリの公式ヘルプ・サポートをご確認ください。',
+            'The steps below are provided for reference. Screens and menu names may differ by app version or device, so please check each app\'s official help or support for detailed instructions.'
+          )}
+        </p>
+      </div>
       <div className="flex flex-col gap-3.5">
         {APP_GUIDES.map((g, i) => (
           <Reveal key={g.name} delay={i * 80}>
