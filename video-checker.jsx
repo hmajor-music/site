@@ -309,7 +309,7 @@ function classifyVideo(meta) {
   const { width: w, height: h, fps, bitrateMbps: br } = meta.video;
 
   const resTier = (w === 1920 && h === 1080) ? 'gold' : ((w >= 1280 && h >= 720) ? 'ok' : 'fix');
-  const fpsTier = (fps >= 24 && fps <= 30.03) ? 'gold' : 'fix';
+  const fpsTier = (fps >= 23.97 && fps <= 30.03) ? 'gold' : 'fix';
 
   // ビットレートは 30Mbps 超をすでに上で弾いているので、ここでは0〜30Mbpsの範囲だけを見る。
   // 低すぎても高すぎても「再生自体」はできる（画質が粗くなる／会場の再生機でカクつきやすくなる
