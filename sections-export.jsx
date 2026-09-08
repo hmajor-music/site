@@ -4,16 +4,17 @@ const EXPORT_SPECS = [
   { icon: <IconFilm size={18} />,    k: 'ファイル形式',   kEn: 'File format',      v: 'MP4', accent: true },
   { icon: <IconSparkle size={18} />, k: '映像コーデック',  kEn: 'Video codec',      v: 'H.264（AVC）', accent: true },
   { icon: <IconMonitor size={18} />, k: '解像度',         kEn: 'Resolution',       v: '1920×1080（フルHD）' },
-  { icon: <IconClock size={18} />,   k: 'フレームレート',  kEn: 'Frame rate',       v: '30fps（固定）' },
+  { icon: <IconClock size={18} />,   k: 'フレームレート',  kEn: 'Frame rate',       v: '24〜30fps（固定）' },
   { icon: <IconSpeaker size={18} />, k: '音声',           kEn: 'Audio',            v: 'AAC・48kHz・ステレオ' },
-  { icon: <IconArrowR size={18} />,  k: '映像ビットレート', kEn: 'Video bitrate',    v: '8〜20Mbps 目安' },
+  { icon: <IconArrowR size={18} />,  k: '映像ビットレート', kEn: 'Video bitrate',    v: '8〜20Mbps（固定ビットレート）' },
 ];
 
 const EXPORT_DONTS = [
   ['H.265 / HEVC（高効率）', '最も多い再生エラーの原因', 'H.265 / HEVC ("High Efficiency")', 'The single most common cause of playback errors'],
   ['4K・8K の解像度', '会場の再生機は最大1080pまで', '4K or 8K resolution', 'The venue player supports up to 1080p only'],
   ['可変フレームレート（VFR）', 'スマホ録画・画面収録に多い', 'Variable frame rate (VFR)', 'Common in phone recordings & screen captures'],
-  ['60fps での書き出し', '30fps に下げてください', 'Exporting at 60fps', 'Please set it to 30fps'],
+  ['可変ビットレート（VBR）', '固定ビットレート（CBR）を選択してください', 'Variable bitrate (VBR)', 'Please choose constant bitrate (CBR)'],
+  ['60fps での書き出し', '24〜30fps に下げてください', 'Exporting at 60fps', 'Please set it to 24–30fps'],
   ['配信・画面録画の映像', '権利・形式の両面で不可', 'Streamed or screen-recorded footage', 'Not allowed, both for rights and format reasons'],
 ];
 
@@ -120,7 +121,7 @@ function AppGuide({ g, open, onToggle }) {
 // ---- 作成から提出までの流れ -------------------------------------
 const EXPORT_STEPS = [
   { icon: <IconFilm size={20} />, label: '映像を作成', sub: 'マニュアルのルールで編集', labelEn: 'Create your video', subEn: 'Edit following the manual' },
-  { icon: <IconDownload size={20} />, label: '指定の設定で書き出し', sub: 'MP4・H.264・1080p・30fps', labelEn: 'Export with these settings', subEn: 'MP4 · H.264 · 1080p · 30fps' },
+  { icon: <IconDownload size={20} />, label: '指定の設定で書き出し', sub: 'MP4・H.264・1080p・24〜30fps', labelEn: 'Export with these settings', subEn: 'MP4 · H.264 · 1080p · 24–30fps' },
   { icon: <IconMonitor size={20} />, label: '事前チェック', sub: '下のツールでその場で確認', labelEn: 'Check it', subEn: 'Verify instantly with the tool below' },
   { icon: <IconUpload size={20} />, label: 'データを提出', sub: '専用フォームから提出', labelEn: 'Submit your file', subEn: 'Via the dedicated form' },
   { icon: <IconCheck size={20} />, label: '会場で再生確認', sub: '当日まで安心してお任せ', labelEn: 'Venue playback check', subEn: 'We take it from there' },

@@ -309,11 +309,11 @@ function classifyVideo(meta) {
   const { width: w, height: h, fps, bitrateMbps: br } = meta.video;
 
   const resTier = (w === 1920 && h === 1080) ? 'gold' : ((w >= 1280 && h >= 720) ? 'ok' : 'fix');
-  const fpsTier = (fps >= 29.97 && fps <= 30.03) ? 'gold' : ((fps >= 24 && fps <= 30.03) ? 'ok' : 'fix');
+  const fpsTier = (fps >= 24 && fps <= 30.03) ? 'gold' : 'fix';
 
   // ビットレートは 30Mbps 超をすでに上で弾いているので、ここでは0〜30Mbpsの範囲だけを見る。
-  // 20〜30Mbpsは再生自体は可能だが、会場の再生機でカクつきが増える傾向があるため
-  // 「再生可能」止まりとし、注意文を添える。
+  // 低すぎても高すぎても「再生自体」はできる（画質が粗くなる／会場の再生機でカクつきやすくなる
+  // だけ）ため、どちらも 'fix'（要修正＝再生不可）にはせず「再生可能」止まりで注意文を添える。
   let brTier;
   let bitrateCaution = null;
   if (br >= 8 && br <= 20) {
@@ -327,14 +327,17 @@ function classifyVideo(meta) {
       `The video bitrate is ${br.toFixed(1)}Mbps. Above 20Mbps, stuttering becomes more likely on the venue player, so 20Mbps or below is recommended.`
     );
   } else {
-    brTier = 'fix';
+    brTier = 'ok';
+    bitrateCaution = T(
+      `映像ビットレートが ${br.toFixed(1)}Mbps です。低すぎるため画質が粗くなる可能性があります。8〜20Mbpsを推奨します。`,
+      `The video bitrate is ${br.toFixed(1)}Mbps. This is low enough that image quality may suffer. 8–20Mbps is recommended.`
+    );
   }
 
-  if (resTier === 'fix' || fpsTier === 'fix' || brTier === 'fix') {
+  if (resTier === 'fix' || fpsTier === 'fix') {
     const mismatches = [];
     if (resTier === 'fix') mismatches.push(T(`解像度: ${w}×${h}（推奨 1920×1080 / 可 1280×720〜）`, `Resolution: ${w}×${h} (recommended 1920×1080 / acceptable 1280×720+)`));
-    if (fpsTier === 'fix') mismatches.push(T(`フレームレート: ${fmtFps(fps)}（推奨 30fps付近）`, `Frame rate: ${fmtFps(fps)} (recommended around 30fps)`));
-    if (brTier === 'fix') mismatches.push(T(`映像ビットレート: ${br.toFixed(1)}Mbps（推奨 8〜20Mbps）`, `Video bitrate: ${br.toFixed(1)}Mbps (recommended 8–20Mbps)`));
+    if (fpsTier === 'fix') mismatches.push(T(`フレームレート: ${fmtFps(fps)}（推奨 24〜30fps）`, `Frame rate: ${fmtFps(fps)} (recommended 24–30fps)`));
     return { tier: 'fix', issues: mismatches, audioCaution, bitrateCaution };
   }
 
