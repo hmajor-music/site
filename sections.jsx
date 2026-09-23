@@ -19,7 +19,7 @@ function Header({ go, active }) {
 
   return (
     <header className="sticky top-0 z-40 bg-ivory/95 backdrop-blur-md border-b border-line">
-      <div className="h-[64px] sm:h-[76px] px-4 sm:px-8 lg:px-14 max-w-[1280px] mx-auto flex items-center justify-between">
+      <div className="h-[64px] sm:h-[76px] px-4 sm:px-8 xl:px-10 max-w-[1280px] mx-auto flex items-center justify-between gap-6 xl:gap-10">
         <button onClick={() => handleNavClick('top')} className="flex items-center gap-2.5 sm:gap-4 active:opacity-70 transition-opacity shrink-0">
           <Logo h={28} className="sm:hidden" />
           <span className="hidden sm:inline-block"><Logo h={34} /></span>
@@ -28,7 +28,7 @@ function Header({ go, active }) {
         </button>
 
         {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-6 flex-nowrap">
+        <nav className="hidden xl:flex items-center gap-5 flex-nowrap">
           {NAV.map((n) => (
             <button key={n.id} onClick={() => go(n.id)}
               className={`relative font-gothic py-1 whitespace-nowrap transition-colors duration-300 ${active === n.id ? 'text-goldDeep' : 'text-ink/65 hover:text-ink'}`}
@@ -47,7 +47,7 @@ function Header({ go, active }) {
         </nav>
 
         {/* Mobile Hamburger Button */}
-        <div className="lg:hidden flex items-center gap-2">
+        <div className="xl:hidden flex items-center gap-2">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="p-2 text-ink/80 hover:text-ink focus:outline-none"
@@ -60,7 +60,7 @@ function Header({ go, active }) {
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-ivory border-b border-line shadow-lg px-6 py-6 anim-fade">
+        <div className="xl:hidden bg-ivory border-b border-line shadow-lg px-6 py-6 anim-fade">
           <nav className="flex flex-col gap-4">
             {NAV.map((n) => (
               <button
@@ -100,21 +100,31 @@ function Hero({ go }) {
       <div className="absolute inset-0 bg-gradient-to-b from-ivory/95 via-ivory/90 to-ivory/95 sm:bg-gradient-to-r sm:from-ivory sm:via-ivory/95 sm:to-transparent"></div>
 
       <div className="relative px-5 sm:px-14 pt-14 sm:pt-28 pb-16 sm:pb-32 max-w-[1280px] mx-auto flex flex-col justify-center min-h-[440px] sm:min-h-[560px]">
-        <Reveal style={{ maxWidth: 660 }}>
+        <Reveal style={{ maxWidth: 720 }}>
           <Eyebrow en="Music &amp; Visual Guide">{T(VENUE.name, VENUE.nameEn)}</Eyebrow>
           {LANG === 'en' ? (
-            <h1 className="font-enserif text-ink mt-6 sm:mt-9 text-3xl sm:text-4xl lg:text-[46px] leading-[1.35] sm:leading-[1.5]" style={{ letterSpacing: '.02em', fontWeight: 400 }}>
-              Your wedding day, <br />with beautiful <span className="text-goldDeep">sound</span> &amp; <span className="text-goldDeep">film</span>.
-            </h1>
+            <>
+              <h1 className="font-enserif text-ink mt-6 sm:mt-9 text-3xl sm:text-4xl lg:text-[46px] leading-[1.35] sm:leading-[1.5]" style={{ letterSpacing: '.02em', fontWeight: 400 }}>
+                So your feelings <span className="text-goldDeep">reach</span> <br className="hidden sm:inline" />every guest you love.
+              </h1>
+              <p className="font-enserif text-ink/80 mt-4 sm:mt-6 text-lg sm:text-[22px]" style={{ letterSpacing: '.02em' }}>
+                We're here to help, through <span className="text-goldDeep">sound</span>.
+              </p>
+            </>
           ) : (
-            <h1 className="font-mincho text-ink mt-6 sm:mt-9 text-3xl sm:text-4xl lg:text-[46px] leading-[1.35] sm:leading-[1.5]" style={{ letterSpacing: '.06em', fontWeight: 400 }}>
-              お二人の結婚式を、<br />最高の<span className="text-goldDeep">音</span>と<span className="text-goldDeep">映像</span>で。
-            </h1>
+            <>
+              <h1 className="font-mincho text-ink mt-6 sm:mt-9 text-[26px] sm:text-4xl lg:text-[42px] leading-[1.55] sm:leading-[1.65]" style={{ letterSpacing: '.06em', fontWeight: 400 }}>
+                お二人の想いが、<br />大切なゲストの心まで<br className="sm:hidden" /><span className="text-goldDeep">届く</span>ように。
+              </h1>
+              <p className="font-mincho text-ink/80 mt-4 sm:mt-6 text-[17px] sm:text-[22px]" style={{ letterSpacing: '.08em' }}>
+                その想いを、<span className="text-goldDeep">音</span>でお手伝いします。
+              </p>
+            </>
           )}
           <p className="font-gothic text-ink/75 sm:text-ink/65 mt-6 sm:mt-9 leading-[1.85] sm:leading-[2.1] text-[13px] sm:text-[13.5px]" style={{ maxWidth: 460 }}>
             {T(
-              '打ち合わせの前に知っておきたい映像のつくり方やBGMのルールを、このページひとつで。ご提出も、ご質問も、ここで完結します。',
-              'Everything you need before your planning meeting — how to make your video, the music rules, submission, and questions — all in one place.'
+              '打ち合わせの前に知っておきたいBGMのルールや映像のつくり方を、このページひとつで。ご提出も、ご質問も、ここで完結します。',
+              'Everything you need before your planning meeting — the music rules, how to make your video, submission, and questions — all in one place.'
             )}
           </p>
         </Reveal>

@@ -140,7 +140,7 @@ function Footer({ go }) {
           <Logo light h={34} />
           <div className="font-gothic text-goldSoft mt-4 sm:mt-6 text-[9.5px] sm:text-[10px]" style={{ letterSpacing: '.22em' }}>{T(VENUE.name, VENUE.nameEn)}</div>
           <p className="font-gothic text-ivory/50 mt-3 sm:mt-4 leading-[1.85] sm:leading-[1.95] max-w-xs text-[11px] sm:text-[11.5px]">
-            {T('結婚式の音響・映像をトータルでサポート。お二人の一日を、最高の音と映像で。', 'Total sound & visual support for your wedding day.')}
+            {T('結婚式の音響スタッフとして、お二人の想いが大切なゲストの心まで届くよう、音でお手伝いします。', 'As your wedding sound team, we help your feelings reach every guest you love — through sound.')}
           </p>
         </div>
         <nav className="flex flex-wrap md:flex-col gap-3 sm:gap-4 items-start md:items-end">
