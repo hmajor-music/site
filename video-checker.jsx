@@ -110,6 +110,36 @@ function sumSampleSizes(dv, stszBox) {
   return total;
 }
 
+// esds 内のディスクリプタ長(1〜4バイトの可変長)を読む
+function readDescriptorHeader(dv, offset, end) {
+  if (offset + 2 > end) return null;
+  const tag = dv.getUint8(offset);
+  let size = 0;
+  let p = offset + 1;
+  for (let i = 0; i < 4 && p < end; i++) {
+    const b = dv.getUint8(p++);
+    size = (size << 7) | (b & 0x7f);
+    if (!(b & 0x80)) break;
+  }
+  return { tag, size, bodyStart: p, bodyEnd: Math.min(p + size, end) };
+}
+
+// mp4a の esds から objectTypeIndication(0x40=MPEG-4 Audio/AAC, 0x6B/0x69=MP3)を取り出す。
+// 同じ mp4a でも中身が MP3 のことがあるため、コーデック名だけでは判定できない。
+function parseEsds(dv, esdsBox) {
+  const end = esdsBox.bodyEnd;
+  const es = readDescriptorHeader(dv, esdsBox.bodyStart + 4, end); // version(1)+flags(3)
+  if (!es || es.tag !== 0x03) return null;
+  let p = es.bodyStart + 2; // ES_ID
+  const flags = dv.getUint8(p++);
+  if (flags & 0x80) p += 2;
+  if (flags & 0x40) p += 1 + dv.getUint8(p);
+  if (flags & 0x20) p += 2;
+  const dc = readDescriptorHeader(dv, p, es.bodyEnd);
+  if (!dc || dc.tag !== 0x04) return null;
+  return { objectTypeIndication: dv.getUint8(dc.bodyStart) };
+}
+
 function sniffNonIsoContainer(bytes) {
   if (bytes.length >= 4 && String.fromCharCode(bytes[0], bytes[1], bytes[2], bytes[3]) === 'RIFF') {
     return T('AVI形式です。MP4（H.264）で書き出し直してください。', 'This is an AVI file. Please re-export as MP4 (H.264).');
@@ -206,7 +236,19 @@ async function analyzeVideoFile(file) {
     } else if (handlerType === 'soun' && !audioTrack) {
       const channels = dv.getUint16(entryStart + 24, false);
       const sampleRate = dv.getUint32(entryStart + 32, false) >>> 16;
-      audioTrack = { codec, channels, sampleRate };
+      const totalBytes = stsz ? sumSampleSizes(dv, stsz) : 0;
+      const bitrateKbps = trackDurationSec > 0 ? (totalBytes * 8) / trackDurationSec / 1000 : 0;
+      // AudioSampleEntry: 共通ヘッダー16 + 20バイトの後に子box(esds等)が続く。
+      // QuickTime拡張の version 1/2 はさらに 16/36 バイト長い。
+      const entrySize = dv.getUint32(entryStart, false);
+      const entryVersion = dv.getUint16(entryStart + 16, false);
+      const childStart = entryStart + 36 + ({ 1: 16, 2: 36 }[entryVersion] || 0);
+      let esds = null;
+      if (codec === 'mp4a' && childStart < entryStart + entrySize) {
+        const esdsBox = parseBoxes(dv, childStart, Math.min(entryStart + entrySize, stsd.bodyEnd)).find((b) => b.type === 'esds');
+        if (esdsBox) esds = parseEsds(dv, esdsBox);
+      }
+      audioTrack = { codec, channels, sampleRate, bitrateKbps, esds };
     }
   }
 
@@ -214,9 +256,14 @@ async function analyzeVideoFile(file) {
     ? T('映像トラックが見つかりません。', 'No video track was found.')
     : (['avc1', 'avc3'].includes(videoTrack.codec) ? null : T(`映像コーデックが H.264 ではありません（検出: ${codecLabel(videoTrack.codec)}）。`, `The video codec is not H.264 (detected: ${codecLabel(videoTrack.codec)}).`));
 
+  const isMp3InMp4a = audioTrack && audioTrack.esds && [0x69, 0x6b].includes(audioTrack.esds.objectTypeIndication);
   const audioIssue = !audioTrack
     ? T('音声トラックがありません。', 'No audio track was found.')
-    : (audioTrack.codec === 'mp4a' ? null : T(`音声コーデックが AAC ではありません（検出: ${audioTrack.codec}）。`, `The audio codec is not AAC (detected: ${audioTrack.codec}).`));
+    : audioTrack.codec !== 'mp4a'
+      ? T(`音声コーデックが AAC ではありません（検出: ${audioTrack.codec}）。`, `The audio codec is not AAC (detected: ${audioTrack.codec}).`)
+      : isMp3InMp4a
+        ? T('音声コーデックが AAC ではありません（検出: MP3）。', 'The audio codec is not AAC (detected: MP3).')
+        : null;
 
   return { formatIssue, videoCodecIssue, audioIssue, video: videoTrack, audio: audioTrack };
 }
@@ -233,7 +280,23 @@ function audioChannelLabel(channels) {
 
 function audioLabel(audio) {
   if (!audio) return T('なし', 'None');
-  return `${audio.sampleRate / 1000}kHz / ${audio.channels}ch（${audioChannelLabel(audio.channels)}）`;
+  const br = audio.bitrateKbps ? ` / ${Math.round(audio.bitrateKbps)}kbps` : '';
+  return `${audio.sampleRate / 1000}kHz / ${audio.channels}ch（${audioChannelLabel(audio.channels)}）${br}`;
+}
+
+// AAC-LC ステレオの規格上限は 48kHz で 576kbps。これを超えると再生機のデコーダーが
+// 音声を処理できず、映像だけ流れて無音になることがある。
+// 実際の書き出しでは 320kbps あれば十分なので、それを超えたら要修正とする。
+const AUDIO_BITRATE_MAX_KBPS = 320;
+
+function evaluateAudioBitrate(audio) {
+  if (audio.bitrateKbps > AUDIO_BITRATE_MAX_KBPS) {
+    return T(
+      `音声ビットレートが ${Math.round(audio.bitrateKbps)}kbps です（${AUDIO_BITRATE_MAX_KBPS}kbps超）。会場の再生機で音が出ない原因となるため、音声を AAC・${AUDIO_BITRATE_MAX_KBPS}kbps以下（推奨 192〜320kbps）で書き出し直してください。`,
+      `The audio bitrate is ${Math.round(audio.bitrateKbps)}kbps (over ${AUDIO_BITRATE_MAX_KBPS}kbps). This can cause no sound on the venue player, so please re-export the audio as AAC at ${AUDIO_BITRATE_MAX_KBPS}kbps or below (recommended 192–320kbps).`
+    );
+  }
+  return null;
 }
 
 // チャンネル数だけで判定できる音質の善し悪しを見る。
@@ -274,6 +337,8 @@ function classifyVideo(meta) {
     redIssues.push(meta.audioIssue);
   } else if (meta.audio) {
     const audioEval = evaluateAudioChannels(meta.audio);
+    const audioBitrateIssue = evaluateAudioBitrate(meta.audio);
+    if (audioBitrateIssue) redIssues.push(audioBitrateIssue);
     if (audioEval.red) {
       redIssues.push(audioEval.red);
     } else {
