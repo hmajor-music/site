@@ -199,6 +199,7 @@ async function analyzeVideoFile(file) {
 
   let videoTrack = null;
   let audioTrack = null;
+  let audioTrackCount = 0;
 
   for (const trak of moovChildren.filter((b) => b.type === 'trak')) {
     const trakChildren = parseBoxes(dv, trak.bodyStart, trak.bodyEnd);
@@ -225,6 +226,7 @@ async function analyzeVideoFile(file) {
 
     const entryStart = stsd.bodyStart + 8; // version(1)+flags(3)+entry_count(4), 先頭1エントリのみ見る
     const codec = readFourCC(dv, entryStart + 4);
+    if (handlerType === 'soun') audioTrackCount++;
 
     if (handlerType === 'vide' && !videoTrack) {
       const width = dv.getUint16(entryStart + 32, false);
@@ -265,7 +267,7 @@ async function analyzeVideoFile(file) {
         ? T('音声コーデックが AAC ではありません（検出: MP3）。', 'The audio codec is not AAC (detected: MP3).')
         : null;
 
-  return { formatIssue, videoCodecIssue, audioIssue, video: videoTrack, audio: audioTrack };
+  return { formatIssue, videoCodecIssue, audioIssue, video: videoTrack, audio: audioTrack, audioTrackCount };
 }
 
 // ---- classification -----------------------------------------------
@@ -339,6 +341,14 @@ function classifyVideo(meta) {
     const audioEval = evaluateAudioChannels(meta.audio);
     const audioBitrateIssue = evaluateAudioBitrate(meta.audio);
     if (audioBitrateIssue) redIssues.push(audioBitrateIssue);
+    // 会場の再生機は音声トラックを1本しか再生せず、どれが選ばれるかも確実ではない。
+    // 再生されない側に音が入っていると無音になるため、2本以上は要修正とする。
+    if (meta.audioTrackCount > 1) {
+      redIssues.push(T(
+        `音声トラックが ${meta.audioTrackCount} 本入っています。会場の再生機では音が出ない原因となるため、音声トラックを1本にして書き出し直してください。`,
+        `The file contains ${meta.audioTrackCount} audio tracks. This can cause no sound on the venue player, so please re-export with a single audio track.`
+      ));
+    }
     if (audioEval.red) {
       redIssues.push(audioEval.red);
     } else {
