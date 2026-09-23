@@ -144,6 +144,20 @@ function MusicConcept() {
 }
 
 // ── 3. For example ───────────────────────────────────────────
+// 元サイトの白ドレス／カラードレスの線画アイコンを SVG で再現したもの
+function DressIllustration({ color, label }) {
+  return (
+    <div className="bg-cream flex items-center justify-center" style={{ aspectRatio: '4/3' }}>
+      <svg viewBox="0 0 120 140" className="h-[62%]" role="img" aria-label={label}>
+        <path
+          d="M46 10 Q60 20 74 10 L87 20 L81 29 L75 26 C75 37 72 45 70 52 C81 68 88 94 89 128 L31 128 C32 94 39 68 50 52 C48 45 45 37 45 26 L39 29 L33 20 Z"
+          fill="none" stroke={color} strokeWidth="3.2" strokeLinejoin="round" strokeLinecap="round"
+        />
+      </svg>
+    </div>
+  );
+}
+
 function MusicExample() {
   return (
     <section id="example" className="scroll-mt-16 px-5 sm:px-14 py-16 sm:py-24">
@@ -152,13 +166,13 @@ function MusicExample() {
           sub="選曲のポイントですが、ひとつのイメージだけではなく、複数のイメージを組み合わせることもおすすめしております。" />
         <div className="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6">
           <Reveal>
-            <Placeholder label="白ドレス" ratio="4/3" />
+            <DressIllustration color="#FFFFFF" label="白ドレス" />
             <p className="font-gothic text-ink/70 mt-4 leading-[1.9] text-[12.5px] text-center">
               前半のウェディングドレスでは<br />『古き良き上質な音楽』
             </p>
           </Reveal>
           <Reveal delay={100}>
-            <Placeholder label="カラードレス" ratio="4/3" />
+            <DressIllustration color="#A80000" label="カラードレス" />
             <p className="font-gothic text-ink/70 mt-4 leading-[1.9] text-[12.5px] text-center">
               後半のカラードレスでは<br />『最新のトレンド音楽』
             </p>
